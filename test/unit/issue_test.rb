@@ -579,6 +579,27 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal false, issue.attributes_editable?(User.find_by_login('dlopper'))
   end
 
+  def test_tracker_permissions_should_respect_oauth_scope
+    issue = Issue.find(1)
+    user = User.find_by_login('jsmith')
+
+    user.oauth_scope = [:view_issues]
+    assert_equal false, issue.attributes_editable?(user)
+    assert_equal false, issue.notes_addable?(user)
+    assert_equal false, issue.deletable?(user)
+    assert_equal false, issue.attachments_addable?(user)
+    assert_equal false, issue.attachments_editable?(user)
+    assert_equal false, issue.attachments_deletable?(user)
+
+    user.oauth_scope = [:view_issues, :edit_issues, :add_issue_notes, :delete_issues]
+    assert_equal true, issue.attributes_editable?(user)
+    assert_equal true, issue.notes_addable?(user)
+    assert_equal true, issue.deletable?(user)
+    assert_equal true, issue.attachments_addable?(user)
+    assert_equal true, issue.attachments_editable?(user)
+    assert_equal true, issue.attachments_deletable?(user)
+  end
+
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 
@@ -1918,6 +1939,17 @@ class IssueTest < ActiveSupport::TestCase
     User.add_to_project(user, Project.find(1), [role1, role2])
 
     assert_equal [1, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_should_respect_oauth_scope
+    user = User.find(2)
+    issue = Issue.find(1)
+
+    user.oauth_scope = [:view_issues, :edit_issues]
+    assert_equal [1], issue.allowed_target_trackers(user).ids
+
+    user.oauth_scope = [:view_issues, :edit_issues, :add_issues]
+    assert_equal [1, 2, 3], issue.allowed_target_trackers(user).ids.sort
   end
 
   def test_allowed_target_trackers_without_project_should_be_empty

@@ -364,6 +364,67 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
   end
 
+  test "POST /projects.json authenticated via OAuth should ignore attributes not covered by the token scope" do
+    Role.find(1).add_permission!(:add_subprojects)
+    with_settings(:new_project_user_role_id => '1', :default_projects_public => '0',
+                  :default_projects_modules => ['issue_tracking']) do
+      assert_difference('Project.count') do
+        post(
+          '/projects.json',
+          :params => {
+            :project => {
+              :name => 'API test',
+              :identifier => 'api-test',
+              :parent_id => 1,
+              :is_public => true,
+              :enabled_module_names => ['wiki'],
+              :inherit_members => true
+            }
+          },
+          :headers => oauth_credentials('jsmith', 'add_project add_subprojects')
+        )
+      end
+    end
+    assert_response :created
+
+    project = Project.order(id: :desc).first
+    assert_equal 1, project.parent_id
+    assert_not project.is_public?
+    assert_equal ['issue_tracking'], project.enabled_module_names
+    assert_not project.inherit_members?
+  end
+
+  test "POST /projects.json authenticated via OAuth should accept attributes covered by the token scope" do
+    Role.find(1).add_permission!(:add_subprojects)
+    scope = 'add_project add_subprojects select_project_publicity select_project_modules manage_members'
+    with_settings(:new_project_user_role_id => '1', :default_projects_public => '0',
+                  :default_projects_modules => ['issue_tracking']) do
+      assert_difference('Project.count') do
+        post(
+          '/projects.json',
+          :params => {
+            :project => {
+              :name => 'API test',
+              :identifier => 'api-test',
+              :parent_id => 1,
+              :is_public => true,
+              :enabled_module_names => ['wiki'],
+              :inherit_members => true
+            }
+          },
+          :headers => oauth_credentials('jsmith', scope)
+        )
+      end
+    end
+    assert_response :created
+
+    project = Project.order(id: :desc).first
+    assert_equal 1, project.parent_id
+    assert project.is_public?
+    assert_equal ['wiki'], project.enabled_module_names
+    assert project.inherit_members?
+  end
+
   test "POST /projects.xml should accept tracker_ids attribute" do
     assert_difference('Project.count') do
       post(

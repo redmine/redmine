@@ -968,6 +968,27 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_equal "A new note", journal.notes
   end
 
+  test "PUT /issues/:id.json authenticated via OAuth should not update attributes without edit_issues scope" do
+    put(
+      '/issues/6.json',
+      :params => {:issue => {:subject => 'API update', :notes => 'A new note'}},
+      :headers => oauth_credentials('jsmith', 'view_issues add_issue_notes'))
+
+    assert_response :no_content
+    assert_not_equal 'API update', Issue.find(6).subject
+    assert_equal 'A new note', Journal.last.notes
+  end
+
+  test "PUT /issues/:id.json authenticated via OAuth should not change the tracker without add_issues scope" do
+    put(
+      '/issues/1.json',
+      :params => {:issue => {:tracker_id => 2}},
+      :headers => oauth_credentials('jsmith', 'view_issues edit_issues'))
+
+    assert_response :no_content
+    assert_equal 1, Issue.find(1).tracker_id
+  end
+
   test "PUT /issues/:id.json with failed update" do
     put(
       '/issues/6.json',

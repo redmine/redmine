@@ -1175,6 +1175,25 @@ class ProjectTest < ActiveSupport::TestCase
     assert project.safe_attribute?('inherit_members', User.find(1)) # Admin
   end
 
+  def test_safe_attributes_for_new_record_should_respect_oauth_scope
+    user = User.find(2)
+    {
+      'is_public' => :select_project_publicity,
+      'enabled_module_names' => :select_project_modules,
+      'inherit_members' => :manage_members
+    }.each do |attribute, permission|
+      with_settings :new_project_user_role_id => '1' do
+        assert Role.find(1).has_permission?(permission)
+
+        user.oauth_scope = [:add_project]
+        assert_not Project.new.safe_attribute?(attribute, user)
+
+        user.oauth_scope = [:add_project, permission]
+        assert Project.new.safe_attribute?(attribute, user)
+      end
+    end
+  end
+
   def test_safe_attributes_inherit_members_for_existing_record
     parent = Project.generate!
     child = Project.generate_with_parent!(parent, :inherit_members => false)
