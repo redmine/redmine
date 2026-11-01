@@ -33,6 +33,10 @@ class Member < ApplicationRecord
   scope :active, (lambda do
     joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})
   end)
+  scope :visible, (lambda do |*args|
+    joins(:project).
+      where(Project.allowed_to_condition(args.shift || User.current, :view_members, *args))
+  end)
   # Sort by first role and principal
   scope :sorted, (lambda do
     includes(:member_roles, :roles, :principal).

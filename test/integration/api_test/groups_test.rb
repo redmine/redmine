@@ -120,6 +120,32 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /groups/:id.xml with include=memberships should only include memberships in visible projects" do
+    # group 10 is a member of the private project 5, which dlopper can not see
+    Member.create!(:principal => Group.find(10), :project_id => 1, :role_ids => [2])
+
+    get '/groups/10.xml?include=memberships', :headers => credentials('admin')
+    assert_response :success
+    assert_select 'group memberships membership', 2
+
+    get '/groups/10.xml?include=memberships', :headers => credentials('dlopper')
+    assert_response :success
+    assert_select 'group memberships' do
+      assert_select 'membership', 1
+      assert_select 'membership project[id="1"]'
+      assert_select 'membership project[id="5"]', 0
+    end
+  end
+
+  test "GET /groups/:id.json with include=memberships should only include memberships in visible projects" do
+    Member.create!(:principal => Group.find(10), :project_id => 1, :role_ids => [2])
+
+    get '/groups/10.json?include=memberships', :headers => credentials('dlopper')
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal [1], json['group']['memberships'].map {|membership| membership['project']['id']}
+  end
+
   test "POST /groups.xml with valid parameters should create the group" do
     assert_difference('Group.count') do
       post(
