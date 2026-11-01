@@ -528,6 +528,23 @@ module Redmine
           raise "Unknown response format: #{format}"
         end
       end
+
+      # Returns the headers for a request authenticated with an OAuth access
+      # token of the given user, limited to the given space separated scopes
+      def oauth_credentials(login, scopes)
+        application = Doorkeeper::Application.create!(
+          :name => 'Test App',
+          :redirect_uri => 'http://localhost/callback',
+          :scopes => scopes
+        )
+        token = Doorkeeper::AccessToken.create!(
+          :application_id => application.id,
+          :resource_owner_id => User.find_by_login(login).id,
+          :scopes => scopes,
+          :expires_in => 7200
+        )
+        {'Authorization' => "Bearer #{token.plaintext_token}"}
+      end
     end
 
     class Routing < Redmine::RoutingTest

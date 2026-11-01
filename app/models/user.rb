@@ -119,7 +119,7 @@ class User < Principal
   attr_accessor :password, :password_confirmation, :generate_password
   attr_accessor :last_before_login_on
   attr_accessor :remote_ip
-  attr_writer   :oauth_scope
+  attr_accessor :oauth_scope
 
   AVATAR_CONTENT_TYPES = %w(image/avif image/gif image/jpeg image/png image/webp).freeze
 

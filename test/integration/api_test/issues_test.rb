@@ -534,6 +534,24 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.json?include=changesets authenticated via OAuth should not include changesets without view_changesets scope" do
+    Issue.find(1).changesets << Changeset.generate!(:comments => 'oauth changeset')
+
+    get '/issues/1.json?include=changesets', :headers => oauth_credentials('jsmith', 'view_issues')
+
+    assert_response :success
+    assert_equal [], response_data['issue']['changesets']
+  end
+
+  test "GET /issues/:id.json?include=changesets authenticated via OAuth should include changesets with view_changesets scope" do
+    Issue.find(1).changesets << Changeset.generate!(:comments => 'oauth changeset')
+
+    get '/issues/1.json?include=changesets', :headers => oauth_credentials('jsmith', 'view_issues view_changesets')
+
+    assert_response :success
+    assert_equal ['oauth changeset'], response_data['issue']['changesets'].pluck('comments')
+  end
+
   test "GET /issues/:id.xml?include=allowed_statuses should include available statuses" do
     issue = Issue.find(1)
     assert_equal 1, issue.tracker_id  # Bug
@@ -747,6 +765,27 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
       assert_response :created
     end
+  end
+
+  test "POST /issues.json with copy_from authenticated via OAuth should not copy an issue without view_issues scope" do
+    assert_no_difference('Issue.count') do
+      post(
+        '/issues.json',
+        :params => {:copy_from => 4, :issue => {:project_id => 2}},
+        :headers => oauth_credentials('jsmith', 'add_issues copy_issues'))
+    end
+    assert_response :not_found
+  end
+
+  test "POST /issues.json with copy_from authenticated via OAuth should copy an issue with view_issues scope" do
+    assert_difference('Issue.count') do
+      post(
+        '/issues.json',
+        :params => {:copy_from => 4, :issue => {:project_id => 2}},
+        :headers => oauth_credentials('jsmith', 'add_issues copy_issues view_issues'))
+    end
+    assert_response :created
+    assert_equal Issue.find(4).description, response_data['issue']['description']
   end
 
   test "POST /issues.json without tracker_id should accept custom fields" do

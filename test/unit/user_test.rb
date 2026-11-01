@@ -1557,6 +1557,16 @@ class UserTest < ActiveSupport::TestCase
     assert user.allowed_to?(:view_issues, project)
   end
 
+  def test_oauth_scope_should_limit_visible_issues
+    user = User.find 2
+    user.oauth_scope = [:view_issues]
+    # project 3 is visible through the Non member role, the others through memberships
+    assert_equal [1, 2, 3, 5], Issue.visible(user).pluck(:project_id).uniq.sort
+
+    user.oauth_scope = [:view_project]
+    assert_empty Issue.visible(user)
+  end
+
   def test_destroy_should_delete_associated_reactions
     users(:users_004).reactions.create!(
       [
