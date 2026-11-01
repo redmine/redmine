@@ -146,14 +146,13 @@ class WikiToolbarHelperTest < Redmine::HelperTest
       buttons = Redmine::WikiToolbar.buttons('common_mark') + [%w[custom custom_menu]]
       menus = Redmine::WikiToolbar.menus + %w[custom_menu]
 
-      Redmine::WikiToolbar.stub(:buttons, buttons) do
-        Redmine::WikiToolbar.stub(:menus, menus) do
-          html = render_erb("<%= wiki_textarea_tag('notes') %>")
+      Redmine::WikiToolbar.stubs(:buttons).returns(buttons)
+      Redmine::WikiToolbar.stubs(:menus).returns(menus)
 
-          assert_select_in html, 'button.jstb_custom[data-action=?][data-wiki-toolbar-button-param=custom]', 'wiki-toolbar#apply'
-          assert_select_in html, 'button.jstb_custom_menu[data-action=?][data-wiki-toolbar-menu-param=custom_menu]', 'wiki-toolbar#toggleMenu'
-        end
-      end
+      html = render_erb("<%= wiki_textarea_tag('notes') %>")
+
+      assert_select_in html, 'button.jstb_custom[data-action=?][data-wiki-toolbar-button-param=custom]', 'wiki-toolbar#apply'
+      assert_select_in html, 'button.jstb_custom_menu[data-action=?][data-wiki-toolbar-menu-param=custom_menu]', 'wiki-toolbar#toggleMenu'
     end
   end
 
