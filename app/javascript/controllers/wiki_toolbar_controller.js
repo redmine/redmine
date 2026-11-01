@@ -38,6 +38,7 @@ export default class extends Controller {
 
   disconnect() {
     this.closeMenu()
+    this.previewRequest?.abort()
     if (this.constructor.lastPreviewed === this) this.constructor.lastPreviewed = null
   }
 
@@ -86,7 +87,7 @@ export default class extends Controller {
   edit() {
     if (!this.previewing) return
 
-    this.previewRequest = null
+    this.previewRequest?.abort()
     this.previewTarget.classList.add('hidden')
     this.field.classList.remove('hidden')
     this.toolbarTarget.classList.remove('hidden')
@@ -105,11 +106,8 @@ export default class extends Controller {
     this.selectTab(this.previewTabTarget, this.editTabTarget)
     this.closeMenu()
 
-    const request = this.previewRequest = this.fetchPreview()
-    const html = await request
-    if (request === this.previewRequest && html !== null) {
-      this.previewTarget.innerHTML = html
-    }
+    const html = await this.fetchPreview()
+    if (html !== null) this.previewTarget.innerHTML = html
   }
 
   // Ctrl/Cmd+Shift+P previews the focused textarea, or switches the last
@@ -220,7 +218,10 @@ export default class extends Controller {
     unselected.setAttribute('aria-selected', 'false')
   }
 
+  // Returns the preview HTML, or null if the request failed or was aborted
   async fetchPreview() {
+    this.previewRequest?.abort()
+    const request = this.previewRequest = new AbortController()
     const body = new FormData()
     body.append('text', this.field.value)
     this.field.form?.querySelectorAll('.attachments_fields input, [data-preview-param]').forEach((input) => {
@@ -231,6 +232,7 @@ export default class extends Controller {
       const response = await fetch(this.previewUrlValue, {
         method: 'POST',
         body: body,
+        signal: request.signal,
         headers: {
           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content,
           'X-Requested-With': 'XMLHttpRequest'
@@ -238,7 +240,7 @@ export default class extends Controller {
       })
       if (response.ok) return await response.text()
     } catch (error) {
-      console.error('Preview failed', error)
+      if (error.name !== 'AbortError') console.error('Preview failed', error)
     }
     return null
   }
