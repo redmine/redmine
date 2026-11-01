@@ -30,12 +30,9 @@
     <% end %>
     <% if @issue.notes_addable? %>
       <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
-      <%= f.textarea :notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
-            :data => {
-              :auto_complete => true
-            }.merge(wiki_textarea_stimulus_attributes),
-            :no_label => true %>
-      <%= wikitoolbar_for 'issue_notes', preview_issue_path(:project_id => @project, :issue_id => @issue) %>
+      <%= f.wiki_textarea :notes, :cols => 60, :rows => 10, :no_label => true,
+            :data => {:auto_complete => true},
+            :preview_url => preview_issue_path(:project_id => @project, :issue_id => @issue) %>
 
       <% if @issue.safe_attribute? 'private_notes' %>
       <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>

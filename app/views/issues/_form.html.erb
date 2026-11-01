@@ -30,19 +30,16 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'description' %>
-<p>
+<div class="form-field">
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
-  <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
-    <%= f.textarea :description, :cols => 60, :accesskey => accesskey(:edit), :class => 'wiki-edit',
-                   :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
-                   :data => {
-                     :auto_complete => true
-                   }.merge(wiki_textarea_stimulus_attributes),
-                   :no_label => true %>
+  <%= content_tag 'div', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
+    <%= f.wiki_textarea :description, :cols => 60, :accesskey => accesskey(:edit), :no_label => true,
+                        :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
+                        :data => {:auto_complete => true},
+                        :preview_url => preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) %>
   <% end %>
   <%= link_to_function content_tag(:span, sprite_icon('edit', l(:button_edit))), '$(this).hide(); $("#issue_description_and_toolbar").show()', :class => 'icon icon-edit' unless @issue.new_record? %>
-</p>
-<%= wikitoolbar_for 'issue_description', preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) %>
+</div>
 <% end %>
 
 <div id="attributes" class="attributes">

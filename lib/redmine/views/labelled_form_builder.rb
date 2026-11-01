@@ -58,6 +58,22 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
     text_field field, options
   end
 
+  # A textarea with the wiki toolbar
+  #
+  # Options:
+  # * :preview_url - URL used to preview the text (default: preview_text_path)
+  # * any other option is passed to textarea
+  def wiki_textarea(field, options = {})
+    options = options.dup
+    preview_url = options.delete(:preview_url) || @template.preview_text_path
+    label = label_for_field(field, options)
+    options = @template.wiki_textarea_options(options.except(:label))
+    field_id = options[:id] || "#{@object_name}_#{field}"
+    label + @template.wiki_toolbar(field_id, preview_url: preview_url) do
+      textarea(field, options.merge(no_label: true))
+    end
+  end
+
   # Returns a label tag for the given field
   def label_for_field(field, options = {})
     return ''.html_safe if options.delete(:no_label)

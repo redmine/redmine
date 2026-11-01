@@ -685,7 +685,7 @@
   }
 
   /* tabular forms resets for mobile */
-  .tabular p, .tabular.settings p {
+  .tabular p, .tabular.settings p, .tabular div.form-field, .tabular.settings div.form-field {
     padding-inline-start: 0;
   }
 

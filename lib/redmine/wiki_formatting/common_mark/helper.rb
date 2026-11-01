@@ -23,29 +23,17 @@ module Redmine
       module Helper
         include Redmine::WikiToolbar::Helper
 
-        def wiki_toolbar
-          @wiki_toolbar ||= WikiToolbar.new(self)
-        end
+        WIKI_TOOLBAR_BUTTONS = [
+          %w[strong em ins del code],
+          %w[h1 h2 h3],
+          %w[ul ol tl],
+          %w[bq unbq table pre precode],
+          %w[link img],
+          %w[help]
+        ].freeze
 
         def initial_page_content(page)
           "# #{page.pretty_title}"
-        end
-      end
-
-      class WikiToolbar < Redmine::WikiToolbar
-        def format
-          'common_mark'
-        end
-
-        def button_groups
-          [
-            %w[strong em ins del code],
-            %w[h1 h2 h3],
-            %w[ul ol tl],
-            %w[bq unbq table pre precode],
-            %w[link img],
-            %w[help]
-          ]
         end
       end
     end

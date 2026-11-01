@@ -209,23 +209,18 @@
 <% end %>
 
 <% custom_fields_full_width.each do |custom_field| %>
-  <p>
+  <div class="form-field">
     <label><%= custom_field.name %></label>
-    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
-  </p>
-  <%= wikitoolbar_for "issue_custom_field_values_#{custom_field.id}", (@project ? preview_issue_path(:project_id => @project, :issue_id => nil) : preview_text_path) if custom_field.full_text_formatting? %>
+    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s],
+          :wiki_toolbar => true, :preview_url => (@project ? preview_issue_path(:project_id => @project, :issue_id => nil) : preview_text_path)) %>
+  </div>
 <% end %>
 
 </fieldset>
 
 <fieldset>
 <legend><%= l(:field_notes) %></legend>
-<%= textarea_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
-                  :data => {
-                    :auto_complete => true
-                  }.merge(wiki_textarea_stimulus_attributes)
-%>
-<%= wikitoolbar_for 'notes' %>
+<%= wiki_textarea_tag 'notes', @notes, :cols => 60, :rows => 10, :data => {:auto_complete => true} %>
 
 <% if User.current.allowed_to?(:add_issue_watchers, nil, global: true)%>
   <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(q: '', object_type: 'issue', object_id: @issues.map(&:id) )}) %>

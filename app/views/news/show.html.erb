@@ -67,12 +67,9 @@
 <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <%= form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <div class="box">
-    <%= textarea 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit',
-                  :data => {
-                    :auto_complete => true
-                  }.merge(wiki_textarea_stimulus_attributes)
-    %>
-    <%= wikitoolbar_for 'comment_comments', preview_news_path(:project_id => @project, :id => @news) %>
+    <%= wiki_toolbar 'comment_comments', :preview_url => preview_news_path(:project_id => @project, :id => @news) do %>
+      <%= textarea 'comment', 'comments', wiki_textarea_options(:cols => 80, :rows => 15, :data => {:auto_complete => true}) %>
+    <% end %>
 </div>
 <p><%= submit_tag l(:button_add) %></p>
 <% end %>

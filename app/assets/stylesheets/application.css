@@ -1322,14 +1322,15 @@ span.pagination>span {white-space:nowrap;}
 #search-form fieldset p {margin-block: 0.2em; margin-inline: 0;}
 
 /***** Tabular forms ******/
-.tabular p{
+.tabular p, .tabular div.form-field {
   margin: 0;
   padding-block: 3px;
   padding-inline: 180px 0; /* width of left column containing the label elements */
   min-block-size: 2em;
   clear: inline-start;
 }
-html>body .tabular p {overflow:hidden;}
+html>body .tabular p, html>body .tabular div.form-field {overflow:hidden;}
+div.form-field {margin-block: 1em;}
 
 .tabular input, .tabular select {max-inline-size: 95%}
 .tabular textarea {inline-size: 95%; resize: vertical;}
@@ -1378,7 +1379,7 @@ label.block {
   color: var(--oc-red-9);
 }
 
-.tabular label.error + *:not(#issue_description_and_toolbar), .tabular label.error + span#issue_description_and_toolbar div.jstBlock {
+.tabular label.error + *:not(#issue_description_and_toolbar), .tabular label.error + div#issue_description_and_toolbar div.jstBlock {
   border: 1px solid var(--oc-red-9);
 }
 
@@ -1407,7 +1408,7 @@ input#months { inline-size: 46px; }
   overflow: initial;
 }
 
-.tabular.settings p { padding-inline-start: 300px; font-size: 93%; }
+.tabular.settings p, .tabular.settings div.form-field { padding-inline-start: 300px; font-size: 93%; }
 .tabular.settings label{ margin-inline-start: -300px; inline-size: 295px; }
 .tabular.settings textarea, .tabular.settings .wiki-preview, .tabular.settings .jstTabs { inline-size: 99%; }
 

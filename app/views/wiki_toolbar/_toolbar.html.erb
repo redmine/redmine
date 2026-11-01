@@ -1,0 +1,31 @@
+<%# Wiki toolbar rendered around the field (the textarea), see WikiToolbarHelper#wiki_toolbar %>
+<%= tag.div class: 'jstBlock', hidden: local_assigns[:adopt_field],
+            data: {
+              controller: 'wiki-toolbar',
+              action: 'keydown->wiki-toolbar#shortcut ' \
+                      'keydown.ctrl+shift+p@window->wiki-toolbar#togglePreview ' \
+                      'keydown.meta+shift+p@window->wiki-toolbar#togglePreview',
+              wiki_toolbar_format_value: Setting.text_formatting,
+              wiki_toolbar_preview_url_value: preview_url,
+              wiki_toolbar_help_url_value: help_wiki_syntax_path,
+              wiki_toolbar_field_id_value: (field_id if local_assigns[:adopt_field])
+            } do %>
+  <div class="jstTabs tabs">
+    <ul role="tablist">
+      <li>
+        <%= link_to l(:button_edit), '#', class: 'tab-edit selected', role: 'tab', aria: {selected: true},
+                    data: {wiki_toolbar_target: 'editTab', action: 'wiki-toolbar#edit:prevent'} %>
+      </li>
+      <li>
+        <%= link_to l(:label_preview), '#', class: 'tab-preview', role: 'tab', aria: {selected: false},
+                    data: {wiki_toolbar_target: 'previewTab', action: 'wiki-toolbar#preview:prevent'} %>
+      </li>
+      <li class="tab-elements"><%= render 'wiki_toolbar/buttons' %></li>
+    </ul>
+  </div>
+  <div class="jstEditor" data-wiki-toolbar-target="editor">
+    <%= field %>
+    <%= tag.div class: 'wiki wiki-preview hidden', id: "preview_#{field_id}", data: {wiki_toolbar_target: 'preview'} %>
+  </div>
+  <%= render 'wiki_toolbar/menus' %>
+<% end %>

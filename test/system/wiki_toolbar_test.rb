@@ -165,6 +165,26 @@ class WikiToolbarTest < ApplicationSystemTestCase
     assert_equal 'issue_description', page.evaluate_script('document.activeElement.id')
   end
 
+  def test_wiki_page_editor
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/wiki/CookBook_documentation/edit'
+
+    assert_selector 'div.jstBlock div.jstEditor textarea#content_text'
+    find('#content_text').click.send_keys([:control, :shift, 'p'])
+    assert_selector 'div.wiki-preview', :visible => true, :text => 'CookBook documentation'
+  end
+
+  def test_journal_notes_edit_should_keep_textarea_focus
+    log_user('jsmith', 'jsmith')
+    visit '/issues/1'
+
+    within '#change-1' do
+      click_link 'Edit'
+      assert_selector 'div.jstBlock div.jstEditor textarea#journal_1_notes'
+    end
+    assert_equal 'journal_1_notes', page.evaluate_script('document.activeElement.id')
+  end
+
   private
 
   def select_text(id, start, finish)

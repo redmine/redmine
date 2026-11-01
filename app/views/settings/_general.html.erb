@@ -3,8 +3,7 @@
 <div class="box tabular settings">
 <p><%= setting_text_field :app_title, :size => 30 %></p>
 
-<p><%= setting_textarea :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit', :data => wiki_textarea_stimulus_attributes %></p>
-<%= wikitoolbar_for 'settings_welcome_text' %>
+<div class="form-field"><%= setting_textarea :welcome_text, :cols => 60, :rows => 5, :wiki_toolbar => true %></div>
 
 
 <p><%= setting_text_field :per_page_options, :size => 20 %>

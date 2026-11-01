@@ -60,7 +60,7 @@ class LayoutTest < Redmine::IntegrationTest
     assert_select "head script:match('src',?)", %r{/assets/jstoolbar/}, 0
     assert_select "head link[rel=stylesheet]:match('href',?)", %r{/assets/jstoolbar-\w+.css}
     assert_include "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};", response.body
-    assert_select 'div.jstBlock[data-wiki-toolbar-field-id-value=issue_description]' do
+    assert_select 'div.jstBlock:has(textarea#issue_description)' do
       UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.each do |lang|
         assert_select 'template[data-wiki-toolbar-target=precodeMenu]', :html => /data-wiki-toolbar-lang-param="#{lang}"/
       end

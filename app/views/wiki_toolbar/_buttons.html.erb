@@ -1,0 +1,12 @@
+<% cache ['wiki_toolbar_buttons', Setting.text_formatting, current_language] do %>
+  <div class="jstElements" data-wiki-toolbar-target="toolbar">
+    <% Redmine::WikiToolbar.buttons(Setting.text_formatting).each_with_index do |names, index| %>
+      <% if index > 0 %><span class="jstSpacer">&nbsp;</span><% end %>
+      <% names.each do |name| %>
+        <% title = l(Redmine::WikiToolbar::LABELS.fetch(name)) %>
+        <%= tag.button tag.span(title), type: 'button', class: "jstb_#{name}", title: title, tabindex: 200,
+                       data: wiki_toolbar_button_data(name) %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

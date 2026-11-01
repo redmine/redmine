@@ -1,0 +1,28 @@
+<% languages = User.current.pref.toolbar_language_options.to_s.split(',') %>
+<% cache ['wiki_toolbar_menus', languages] do %>
+  <template data-wiki-toolbar-target="precodeMenu">
+    <ul class="jstMenu" role="menu" data-action="click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu">
+      <% languages.each do |lang| %>
+        <li role="none">
+          <%= tag.button lang, type: 'button', role: 'menuitem',
+                         data: {action: 'wiki-toolbar#insertPrecode', wiki_toolbar_lang_param: lang} %>
+        </li>
+      <% end %>
+    </ul>
+  </template>
+  <template data-wiki-toolbar-target="tableMenu">
+    <table class="table-generator" role="grid"
+           data-action="click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu mouseover->wiki-toolbar#highlightTable focusin->wiki-toolbar#highlightTable">
+      <% 1.upto(Redmine::WikiToolbar::TABLE_MENU_ROWS) do |row| %>
+        <tr>
+          <% 1.upto(Redmine::WikiToolbar::TABLE_MENU_COLS) do |col| %>
+            <td>
+              <%= tag.button type: 'button', title: "#{col}×#{row}", aria: {label: "#{col}×#{row}"},
+                             data: {action: 'wiki-toolbar#insertTable', wiki_toolbar_cols_param: col, wiki_toolbar_rows_param: row} %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </template>
+<% end %>

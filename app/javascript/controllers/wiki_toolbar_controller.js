@@ -7,20 +7,19 @@ import { Controller } from '@hotwired/stimulus'
 
 const isMac = /mac|iphone|ipad/i.test(navigator.userAgentData?.platform || navigator.platform)
 
-// Wiki toolbar rendered by Redmine::WikiToolbar.
+// Wiki toolbar rendered by app/views/wiki_toolbar/_toolbar.html.erb around
+// its textarea (the field target).
 //
-// The toolbar is rendered after the textarea and moves itself to the
-// textarea's position on connect, so that existing views only need to call
-// wikitoolbar_for. The markup inserted by each button is defined by the text
-// formatter in app/javascript/wiki_formatting/<format>.js, which is loaded on
-// connect.
+// The markup inserted by each button is defined by the text formatter in
+// app/javascript/wiki_formatting/<format>.js, which is loaded on connect.
 export default class extends Controller {
-  static targets = ['editor', 'preview', 'editTab', 'previewTab', 'toolbar', 'precodeMenu', 'tableMenu']
+  static targets = ['field', 'editor', 'preview', 'editTab', 'previewTab', 'toolbar', 'precodeMenu', 'tableMenu']
   static values = {
     format: String,
-    fieldId: String,
     previewUrl: String,
-    helpUrl: String
+    helpUrl: String,
+    // Only set by the deprecated wikitoolbar_for helper
+    fieldId: String
   }
 
   // Editor whose preview was displayed last, switched back to edit mode
@@ -28,24 +27,22 @@ export default class extends Controller {
   static lastPreviewed = null
 
   connect() {
-    this.field = document.getElementById(this.fieldIdValue)
-    if (!this.field) return
+    if (!this.hasFieldTarget && this.hasFieldIdValue) this.adoptField()
+    if (!this.hasFieldTarget) return
 
-    if (!this.editorTarget.contains(this.field)) {
-      // Moving the element reconnects the controller
-      this.field.before(this.element)
-      this.editorTarget.prepend(this.field)
-    }
     this.syntaxLoaded ??= import(`wiki_formatting/${this.formatValue}`)
       .then((module) => { this.syntax = module.default })
       .catch((error) => console.error(`Wiki toolbar syntax not found for ${this.formatValue}`, error))
     this.addShortcutsToTitles()
-    this.element.hidden = false
   }
 
   disconnect() {
     this.closeMenu()
     if (this.constructor.lastPreviewed === this) this.constructor.lastPreviewed = null
+  }
+
+  get field() {
+    return this.fieldTarget
   }
 
   // Actions
@@ -111,6 +108,8 @@ export default class extends Controller {
     }
   }
 
+  // Ctrl/Cmd+Shift+P previews the focused textarea, or switches the last
+  // previewed one back to edit mode
   togglePreview(event) {
     if (event.target === this.field) {
       event.preventDefault()
@@ -185,6 +184,24 @@ export default class extends Controller {
   }
 
   // Private
+
+  // Moves the textarea into the toolbar (deprecated wikitoolbar_for helper)
+  adoptField() {
+    const field = document.getElementById(this.fieldIdValue)
+    if (!field) return
+
+    const hadFocus = document.activeElement === field
+    field.setAttribute('data-wiki-toolbar-target', 'field')
+    this.element.hidden = false
+    // Moving the element reconnects the controller
+    field.before(this.element)
+    if ('moveBefore' in Element.prototype) {
+      this.editorTarget.moveBefore(field, this.editorTarget.firstChild)
+    } else {
+      this.editorTarget.prepend(field)
+    }
+    if (hadFocus && document.activeElement !== field) field.focus()
+  }
 
   get previewing() {
     return this.previewTabTarget.classList.contains('selected')

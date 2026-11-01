@@ -99,9 +99,16 @@ module SettingsHelper
       text_field_tag("settings[#{setting}]", setting_value(setting), options).html_safe
   end
 
+  # Options:
+  # * :wiki_toolbar - renders the textarea with the wiki toolbar
   def setting_textarea(setting, options={})
-    setting_label(setting, options).html_safe +
-      textarea_tag("settings[#{setting}]", setting_value(setting), options).html_safe
+    if options.delete(:wiki_toolbar)
+      setting_label(setting, options).html_safe +
+        wiki_textarea_tag("settings[#{setting}]", setting_value(setting), options.except(:label))
+    else
+      setting_label(setting, options).html_safe +
+        textarea_tag("settings[#{setting}]", setting_value(setting), options).html_safe
+    end
   end
 
   def setting_check_box(setting, options={})

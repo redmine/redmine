@@ -62,4 +62,34 @@ class Redmine::Views::LabelledFormBuilderTest < Redmine::HelperTest
       assert_include 'value="2.z"', f.hours_field(:hours)
     end
   end
+
+  def test_wiki_textarea
+    with_settings :text_formatting => 'common_mark' do
+      html = render(:inline => <<~ERB, :locals => {:issue => Issue.new(:description => 'Some description')}) # rubocop:disable Rails/RenderInline
+        <%= labelled_form_for(issue) do |f| %>
+          <%= f.wiki_textarea(:description, :rows => 5, :required => true, :preview_url => '/preview') %>
+        <% end %>
+      ERB
+
+      assert_select_in html, 'label[for=issue_description]', :text => 'Description *'
+      assert_select_in html, 'label + div.jstBlock[data-wiki-toolbar-preview-url-value=?]', '/preview' do
+        assert_select 'textarea#issue_description.wiki-edit[name=?][rows="5"][data-wiki-toolbar-target=field]',
+                      'issue[description]', :text => 'Some description'
+        assert_select 'label', 0
+      end
+    end
+  end
+
+  def test_wiki_textarea_without_label
+    with_settings :text_formatting => 'common_mark' do
+      html = render(:inline => <<~ERB, :locals => {:issue => Issue.new}) # rubocop:disable Rails/RenderInline
+        <%= labelled_form_for(issue) do |f| %>
+          <%= f.wiki_textarea(:notes, :no_label => true) %>
+        <% end %>
+      ERB
+
+      assert_select_in html, 'label', 0
+      assert_select_in html, 'div.jstBlock textarea#issue_notes'
+    end
+  end
 end

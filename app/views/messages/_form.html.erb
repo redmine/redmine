@@ -21,15 +21,13 @@
   <%= f.select :board_id, boards_options_for_select(@message.project.boards) %></p>
 <% end %>
 
-<p>
+<div class="form-field">
 <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-<%= f.textarea :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
-                :accesskey => accesskey(:edit),
-                :data => {
-                  :auto_complete => true
-                }.merge(wiki_textarea_stimulus_attributes)
-%></p>
-<%= wikitoolbar_for 'message_content', preview_board_message_path(:board_id => @board, :id => @message) %>
+<%= wiki_toolbar 'message_content', :preview_url => preview_board_message_path(:board_id => @board, :id => @message) do %>
+  <%= f.textarea :content, wiki_textarea_options(:cols => 80, :rows => 15, :id => 'message_content',
+                                                 :accesskey => accesskey(:edit), :data => {:auto_complete => true}) %>
+<% end %>
+</div>
 <!--[eoform:message]-->
 
 <p><%= l(:label_attachment_plural) %><br />

@@ -18,12 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module Redmine
-  # Renders the wiki toolbar handled by the wiki-toolbar Stimulus controller.
+  # Wiki toolbar rendered by app/views/wiki_toolbar and handled by the
+  # wiki-toolbar Stimulus controller.
   #
-  # The toolbar only describes the layout: which buttons are displayed and in
-  # which groups. What each button inserts in the text is defined for each text
-  # formatter in app/javascript/wiki_formatting/<format>.js.
-  class WikiToolbar
+  # A text formatter displays the toolbar by defining WIKI_TOOLBAR_BUTTONS, the
+  # groups of buttons, in its helper module. What each button inserts in the
+  # text is defined in app/javascript/wiki_formatting/<format>.js.
+  module WikiToolbar
     LABELS = {
       'strong' => :label_wiki_toolbar_strong,
       'em' => :label_wiki_toolbar_italic,
@@ -50,15 +51,30 @@ module Redmine
     MENUS = %w[table precode].freeze
     TABLE_MENU_ROWS = 5
     TABLE_MENU_COLS = 10
-    KEYBOARD_ACTIONS = 'keydown->wiki-toolbar#shortcut ' \
-                       'keydown.ctrl+shift+p@window->wiki-toolbar#togglePreview ' \
-                       'keydown.meta+shift+p@window->wiki-toolbar#togglePreview'
 
-    # Helper methods shared by the text formatters that use the toolbar
+    # Returns the groups of buttons of the given text formatter, or nil if it
+    # does not use the toolbar
+    def self.buttons(format)
+      helper = Redmine::WikiFormatting.helper_for(format)
+      helper::WIKI_TOOLBAR_BUTTONS if helper.const_defined?(:WIKI_TOOLBAR_BUTTONS, false)
+    end
+
+    # Helper methods of the text formatters that use the toolbar
     module Helper
+      # Renders the toolbar for an existing textarea, which is moved into the
+      # toolbar in the browser.
+      #
+      # Deprecated: use LabelledFormBuilder#wiki_textarea or
+      # WikiToolbarHelper#wiki_textarea_tag to render the textarea with its
+      # toolbar.
       def wikitoolbar_for(field_id, preview_url = preview_text_path)
+        Rails.application.deprecators[:redmine].warn(
+          'wikitoolbar_for is deprecated and will be removed in Redmine 8.0. ' \
+          'Please use LabelledFormBuilder#wiki_textarea or wiki_textarea_tag instead.'
+        )
         heads_for_wiki_formatter
-        wiki_toolbar.render(field_id, preview_url)
+        render(partial: 'wiki_toolbar/toolbar',
+               locals: {field_id: field_id, field: nil, preview_url: preview_url, adopt_field: true})
       end
 
       def heads_for_wiki_formatter
@@ -69,142 +85,6 @@ module Redmine
         end
         @heads_for_wiki_formatter_included = true
       end
-    end
-
-    def initialize(view)
-      @view = view
-    end
-
-    # Name of the text formatter, used to load its syntax in JavaScript
-    def format
-      raise NotImplementedError
-    end
-
-    # Groups of buttons, separated by spacers
-    def button_groups
-      raise NotImplementedError
-    end
-
-    def render(field_id, preview_url)
-      tag.div(class: 'jstBlock', hidden: true,
-              data: {
-                controller: 'wiki-toolbar',
-                action: KEYBOARD_ACTIONS,
-                wiki_toolbar_format_value: format,
-                wiki_toolbar_field_id_value: field_id,
-                wiki_toolbar_preview_url_value: preview_url,
-                wiki_toolbar_help_url_value: @view.help_wiki_syntax_path
-              }) do
-        tabs +
-          tag.div(class: 'jstEditor', data: {wiki_toolbar_target: 'editor'}) do
-            tag.div('', class: 'wiki wiki-preview hidden', id: "preview_#{field_id}",
-                    data: {wiki_toolbar_target: 'preview'})
-          end +
-          menus
-      end
-    end
-
-    private
-
-    def tag
-      @view.tag
-    end
-
-    def l(...)
-      @view.l(...)
-    end
-
-    def tabs
-      tag.div(class: 'jstTabs tabs') do
-        tag.ul(role: 'tablist') do
-          tag.li {tab(l(:button_edit), 'edit', true)} +
-            tag.li {tab(l(:label_preview), 'preview', false)} +
-            tag.li(class: 'tab-elements') do
-              tag.div(rendered_buttons, class: 'jstElements', data: {wiki_toolbar_target: 'toolbar'})
-            end
-        end
-      end
-    end
-
-    def tab(text, name, selected)
-      tag.a(text, href: '#', class: ['tab-' + name, {selected: selected}], role: 'tab',
-            aria: {selected: selected},
-            data: {wiki_toolbar_target: "#{name}Tab", action: "wiki-toolbar##{name}:prevent"})
-    end
-
-    def rendered_buttons
-      @rendered_buttons ||= @view.safe_join(
-        button_groups.map {|names| @view.safe_join(names.map {|name| render_button(name)})},
-        tag.span("\u00a0", class: 'jstSpacer')
-      )
-    end
-
-    def render_button(name)
-      title = l(LABELS.fetch(name))
-      data =
-        if MENUS.include?(name)
-          {action: 'wiki-toolbar#toggleMenu', wiki_toolbar_menu_param: name}
-        elsif name == 'help'
-          {action: 'wiki-toolbar#help'}
-        else
-          {action: 'wiki-toolbar#apply', wiki_toolbar_button_param: name}
-        end
-      data[:wiki_toolbar_shortcut] = SHORTCUTS[name] if SHORTCUTS[name]
-
-      tag.button(tag.span(title), type: 'button', class: "jstb_#{name}", title: title, tabindex: 200, data: data)
-    end
-
-    def menus
-      @menus ||= @view.safe_join(
-        MENUS.map do |name|
-          tag.template(data: {wiki_toolbar_target: "#{name}Menu"}) {send(:"#{name}_menu")}
-        end
-      )
-    end
-
-    def precode_menu
-      tag.ul(class: 'jstMenu', role: 'menu',
-             data: {action: 'click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu'}) do
-        @view.safe_join(
-          code_languages.map do |lang|
-            tag.li(role: 'none') do
-              tag.button(lang, type: 'button', role: 'menuitem',
-                         data: {action: 'wiki-toolbar#insertPrecode', wiki_toolbar_lang_param: lang})
-            end
-          end
-        )
-      end
-    end
-
-    def table_menu
-      tag.table(class: 'table-generator', role: 'grid',
-                data: {
-                  action: 'click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu ' \
-                          'mouseover->wiki-toolbar#highlightTable focusin->wiki-toolbar#highlightTable'
-                }) do
-        @view.safe_join(
-          (1..TABLE_MENU_ROWS).map do |row|
-            tag.tr do
-              @view.safe_join(
-                (1..TABLE_MENU_COLS).map do |col|
-                  tag.td do
-                    tag.button(type: 'button', title: "#{col}×#{row}", aria: {label: "#{col}×#{row}"},
-                               data: {
-                                 action: 'wiki-toolbar#insertTable',
-                                 wiki_toolbar_cols_param: col,
-                                 wiki_toolbar_rows_param: row
-                               })
-                  end
-                end
-              )
-            end
-          end
-        )
-      end
-    end
-
-    def code_languages
-      User.current.pref.toolbar_language_options.to_s.split(',')
     end
   end
 end
