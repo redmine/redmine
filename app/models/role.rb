@@ -306,7 +306,7 @@ class Role < ApplicationRecord
     @allowed_permissions ||= {}
     @allowed_permissions[scope] ||= begin
       unscoped = permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
-      scope.present? ? unscoped & scope : unscoped
+      scope ? unscoped & scope : unscoped
     end
   end
 

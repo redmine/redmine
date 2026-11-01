@@ -552,6 +552,12 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_equal ['oauth changeset'], response_data['issue']['changesets'].pluck('comments')
   end
 
+  test "GET /issues/:id.json authenticated via OAuth with an empty scope should be denied" do
+    get '/issues/1.json', :headers => oauth_credentials('jsmith', '')
+
+    assert_response :forbidden
+  end
+
   test "GET /issues/:id.xml?include=allowed_statuses should include available statuses" do
     issue = Issue.find(1)
     assert_equal 1, issue.tracker_id  # Bug

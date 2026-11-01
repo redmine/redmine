@@ -1567,6 +1567,16 @@ class UserTest < ActiveSupport::TestCase
     assert_empty Issue.visible(user)
   end
 
+  def test_empty_oauth_scope_should_deny_all_permissions
+    user = User.find 2
+    project = Project.find 1
+    user.oauth_scope = []
+    assert_not user.allowed_to?(:add_issues, project)
+    assert_not user.allowed_to?(:view_issues, project)
+    assert_not user.allowed_to?(:add_issues, nil, global: true)
+    assert_empty Issue.visible(user)
+  end
+
   def test_destroy_should_delete_associated_reactions
     users(:users_004).reactions.create!(
       [
