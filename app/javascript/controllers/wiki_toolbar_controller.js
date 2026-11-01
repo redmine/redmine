@@ -256,7 +256,9 @@ export default class extends Controller {
     const parent = this.menu.offsetParent || document.documentElement
     const parentRect = parent.getBoundingClientRect()
     const buttonRect = button.getBoundingClientRect()
-    this.menu.style.left = `${buttonRect.left - parentRect.left + parent.scrollLeft}px`
+    const left = buttonRect.left - parentRect.left + parent.scrollLeft
+    const maxLeft = this.element.clientWidth - this.menu.offsetWidth
+    this.menu.style.left = `${Math.max(0, Math.min(left, maxLeft))}px`
     this.menu.style.top = `${buttonRect.bottom - parentRect.top + parent.scrollTop}px`
   }
 

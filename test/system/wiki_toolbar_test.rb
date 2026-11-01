@@ -208,6 +208,23 @@ class WikiToolbarTest < ApplicationSystemTestCase
     assert_equal '[custom:common_mark]hello[/custom]', find('#issue_description').value
   end
 
+  def test_table_menu_should_stay_inside_toolbar_bounds
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/issues/new'
+
+    page.execute_script("document.querySelector('div.jstBlock').style.width = '180px'")
+    find('button.jstb_table').click
+    assert_selector 'table.table-generator'
+    overflow = page.evaluate_script(<<~JS)
+      (() => {
+        const block = document.querySelector('div.jstBlock').getBoundingClientRect()
+        const menu = document.querySelector('table.table-generator').getBoundingClientRect()
+        return menu.right > block.right || menu.left < block.left
+      })()
+    JS
+    assert_equal false, overflow
+  end
+
   private
 
   def select_text(id, start, finish)
