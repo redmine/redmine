@@ -120,7 +120,7 @@ class WikiToolbarHelperTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       html = render_erb("<%= wiki_textarea_tag('notes') %>")
 
-      assert_select_in html, 'template[data-wiki-toolbar-target=precodeMenu] ul.jstMenu[role=menu]' do
+      assert_select_in html, 'template[data-wiki-toolbar-menu=precode] ul.jstMenu[role=menu]' do
         assert_select 'button[role=menuitem]', 2
       end
       assert_select_in html, 'ul.jstMenu button[data-action=?][data-wiki-toolbar-lang-param=ruby]', 'wiki-toolbar#insertPrecode',
@@ -132,11 +132,27 @@ class WikiToolbarHelperTest < Redmine::HelperTest
     with_settings :text_formatting => 'common_mark' do
       html = render_erb("<%= wiki_textarea_tag('notes') %>")
 
-      assert_select_in html, 'template[data-wiki-toolbar-target=tableMenu] table.table-generator' do
+      assert_select_in html, 'template[data-wiki-toolbar-menu=table] table.table-generator' do
         assert_select 'tr', 5
         assert_select 'td button', 50
         assert_select 'td button[title=?][data-action=?][data-wiki-toolbar-cols-param="3"][data-wiki-toolbar-rows-param="2"]',
                       '3×2', 'wiki-toolbar#insertTable'
+      end
+    end
+  end
+
+  def test_plugin_can_add_custom_button_and_menu
+    with_settings :text_formatting => 'common_mark' do
+      buttons = Redmine::WikiToolbar.buttons('common_mark') + [%w[custom custom_menu]]
+      menus = Redmine::WikiToolbar.menus + %w[custom_menu]
+
+      Redmine::WikiToolbar.stub(:buttons, buttons) do
+        Redmine::WikiToolbar.stub(:menus, menus) do
+          html = render_erb("<%= wiki_textarea_tag('notes') %>")
+
+          assert_select_in html, 'button.jstb_custom[data-action=?][data-wiki-toolbar-button-param=custom]', 'wiki-toolbar#apply'
+          assert_select_in html, 'button.jstb_custom_menu[data-action=?][data-wiki-toolbar-menu-param=custom_menu]', 'wiki-toolbar#toggleMenu'
+        end
       end
     end
   end

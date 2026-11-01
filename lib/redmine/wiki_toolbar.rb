@@ -59,6 +59,21 @@ module Redmine
       helper::WIKI_TOOLBAR_BUTTONS if helper.const_defined?(:WIKI_TOOLBAR_BUTTONS, false)
     end
 
+    # Returns the names of the buttons that open a dropdown menu
+    def self.menus
+      MENUS
+    end
+
+    # Returns the I18n key for the given button name
+    def self.label_for(name)
+      LABELS.fetch(name) {:"label_wiki_toolbar_#{name}"}
+    end
+
+    # Returns the keyboard shortcut key for the given button name, if any
+    def self.shortcut_for(name)
+      SHORTCUTS[name]
+    end
+
     # Helper methods of the text formatters that use the toolbar
     module Helper
       # Renders the toolbar for an existing textarea, which is moved into the

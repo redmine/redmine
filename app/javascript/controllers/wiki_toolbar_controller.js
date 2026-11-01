@@ -13,7 +13,7 @@ const isMac = /mac|iphone|ipad/i.test(navigator.userAgentData?.platform || navig
 // The markup inserted by each button is defined by the text formatter in
 // app/javascript/wiki_formatting/<format>.js, which is loaded on connect.
 export default class extends Controller {
-  static targets = ['field', 'editor', 'preview', 'editTab', 'previewTab', 'toolbar', 'precodeMenu', 'tableMenu']
+  static targets = ['field', 'editor', 'preview', 'editTab', 'previewTab', 'toolbar']
   static values = {
     format: String,
     previewUrl: String,
@@ -49,7 +49,11 @@ export default class extends Controller {
 
   async apply({ params: { button } }) {
     await this.syntaxLoaded
-    this.syntax?.[button]?.(this)
+    if (this.syntax?.[button]) {
+      this.syntax[button](this)
+    } else {
+      this.dispatch('button', { detail: { button, format: this.formatValue, editor: this } })
+    }
   }
 
   async insertPrecode({ params: { lang } }) {
@@ -128,7 +132,9 @@ export default class extends Controller {
     this.closeMenu()
     if (opened) return
 
-    const template = this[`${params.menu}MenuTarget`]
+    const template = this.element.querySelector(`template[data-wiki-toolbar-menu="${params.menu}"]`)
+    if (!template) return
+
     this.menu = template.content.firstElementChild.cloneNode(true)
     this.menu.dataset.name = params.menu
     this.element.append(this.menu)

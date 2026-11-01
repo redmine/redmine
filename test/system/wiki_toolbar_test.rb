@@ -185,6 +185,29 @@ class WikiToolbarTest < ApplicationSystemTestCase
     assert_equal 'journal_1_notes', page.evaluate_script('document.activeElement.id')
   end
 
+  def test_custom_button_should_dispatch_button_event
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/issues/new'
+
+    page.execute_script(<<~JS)
+      const block = document.querySelector('div.jstBlock')
+      block.addEventListener('wiki-toolbar:button', ({ detail: { button, format, editor } }) => {
+        editor.wrap(`[${button}:${format}]`, `[/${button}]`)
+      })
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'jstb_custom'
+      btn.dataset.action = 'wiki-toolbar#apply'
+      btn.dataset.wikiToolbarButtonParam = 'custom'
+      block.querySelector('.jstElements').append(btn)
+    JS
+
+    fill_in 'Description', :with => 'hello'
+    select_text('issue_description', 0, 5)
+    find('button.jstb_custom').click
+    assert_equal '[custom:common_mark]hello[/custom]', find('#issue_description').value
+  end
+
   private
 
   def select_text(id, start, finish)

@@ -62,7 +62,7 @@ class LayoutTest < Redmine::IntegrationTest
     assert_include "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};", response.body
     assert_select 'div.jstBlock:has(textarea#issue_description)' do
       UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.each do |lang|
-        assert_select 'template[data-wiki-toolbar-target=precodeMenu]', :html => /data-wiki-toolbar-lang-param="#{lang}"/
+        assert_select 'template[data-wiki-toolbar-menu=precode]', :html => /data-wiki-toolbar-lang-param="#{lang}"/
       end
     end
   end

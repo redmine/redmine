@@ -46,14 +46,15 @@ module WikiToolbarHelper
   # Returns the data attributes of a toolbar button
   def wiki_toolbar_button_data(name)
     data =
-      if Redmine::WikiToolbar::MENUS.include?(name)
+      if Redmine::WikiToolbar.menus.include?(name)
         {action: 'wiki-toolbar#toggleMenu', wiki_toolbar_menu_param: name}
       elsif name == 'help'
         {action: 'wiki-toolbar#help'}
       else
         {action: 'wiki-toolbar#apply', wiki_toolbar_button_param: name}
       end
-    data[:wiki_toolbar_shortcut] = Redmine::WikiToolbar::SHORTCUTS[name] if Redmine::WikiToolbar::SHORTCUTS[name]
+    shortcut = Redmine::WikiToolbar.shortcut_for(name)
+    data[:wiki_toolbar_shortcut] = shortcut if shortcut
     data
   end
 

@@ -1,6 +1,6 @@
 <% languages = User.current.pref.toolbar_language_options.to_s.split(',') %>
 <% cache ['wiki_toolbar_menus', languages] do %>
-  <template data-wiki-toolbar-target="precodeMenu">
+  <template data-wiki-toolbar-menu="precode">
     <ul class="jstMenu" role="menu" data-action="click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu">
       <% languages.each do |lang| %>
         <li role="none">
@@ -10,7 +10,7 @@
       <% end %>
     </ul>
   </template>
-  <template data-wiki-toolbar-target="tableMenu">
+  <template data-wiki-toolbar-menu="table">
     <table class="table-generator" role="grid"
            data-action="click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu mouseover->wiki-toolbar#highlightTable focusin->wiki-toolbar#highlightTable">
       <% 1.upto(Redmine::WikiToolbar::TABLE_MENU_ROWS) do |row| %>
