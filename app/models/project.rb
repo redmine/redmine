@@ -210,9 +210,10 @@ class Project < ApplicationRecord
       base_statement
     else
       statement_by_role = {}
+      oauth_scope = user.oauth_scope
       unless options[:member]
         role = user.builtin_role
-        if role.allowed_to?(permission)
+        if role.allowed_to?(permission, oauth_scope)
           s = "#{Project.table_name}.is_public = #{connection.quoted_true}"
           if user.id
             group = role.anonymous? ? Group.anonymous : Group.non_member
@@ -226,7 +227,7 @@ class Project < ApplicationRecord
         end
       end
       user.project_ids_by_role.each do |role, project_ids|
-        if role.allowed_to?(permission) && project_ids.any?
+        if role.allowed_to?(permission, oauth_scope) && project_ids.any?
           statement_by_role[role] = "#{Project.table_name}.id IN (#{project_ids.join(',')})"
         end
       end
