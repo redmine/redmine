@@ -673,6 +673,22 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'h2 a', :text => "Feature request #2"
   end
 
+  def test_edit_all_should_render_cancel_link_with_valid_back_url
+    @request.session[:user_id] = 2
+    get(:edit_all, :params => {:object_type => 'issues', :object_id => '2', :back_url => '/issues/2'})
+    assert_response :success
+    assert_select 'a[href=?]', '/issues/2', :text => 'Cancel'
+  end
+
+  def test_edit_all_should_not_render_cancel_link_with_invalid_back_url
+    @request.session[:user_id] = 2
+    ['javascript:alert(1)', 'http://example.com/'].each do |back_url|
+      get(:edit_all, :params => {:object_type => 'issues', :object_id => '2', :back_url => back_url})
+      assert_response :success
+      assert_select 'a', :text => 'Cancel', :count => 0
+    end
+  end
+
   def test_edit_all_with_invalid_object_should_return_404
     get(
       :edit_all,
