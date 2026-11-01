@@ -201,6 +201,17 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal false, role.allowed_to?({:controller => 'issues', :action => 'destroy'}, [:view_issues, :add_issues])
   end
 
+  def test_allowed_to_with_symbol_and_empty_scope
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues])
+    assert_equal false, role.allowed_to?(:view_issues, [])
+    assert_equal false, role.allowed_to?(:view_project, [])
+  end
+
+  def test_allowed_to_with_hash_and_empty_scope
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues])
+    assert_equal false, role.allowed_to?({:controller => 'issues', :action => 'show'}, [])
+  end
+
   def test_has_permission_without_permissions
     role = Role.create!(:name => 'Test')
     assert_equal false, role.has_permission?(:delete_issues)

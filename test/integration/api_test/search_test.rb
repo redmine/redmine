@@ -88,4 +88,26 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
     get '/search.xml', :params => {:q => '3'}
     assert_response :success
   end
+
+  test "GET /search.json authenticated via OAuth should not return issues without view_issues scope" do
+    Issue.generate!(:project_id => 2, :subject => 'searchoauth')
+
+    get '/search.json', :params => {:q => 'searchoauth'},
+        :headers => oauth_credentials('jsmith', 'search_project view_project')
+
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal [], json['results']
+  end
+
+  test "GET /search.json authenticated via OAuth should return issues with view_issues scope" do
+    issue = Issue.generate!(:project_id => 2, :subject => 'searchoauth')
+
+    get '/search.json', :params => {:q => 'searchoauth'},
+        :headers => oauth_credentials('jsmith', 'search_project view_issues')
+
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal [issue.id], json['results'].pluck('id')
+  end
 end
