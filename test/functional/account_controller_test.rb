@@ -729,6 +729,8 @@ class AccountControllerTest < Redmine::ControllerTest
     assert_equal false, @controller.send(:validate_back_url, "/\t/invalid.example.com/issues")
     assert_equal false, @controller.send(:validate_back_url, "/\n/invalid.example.com/issues")
     assert_equal '/%5Cissues', @controller.send(:validate_back_url, '/%5Cissues')
+    assert_equal false, @controller.send(:validate_back_url, ['/admin'])
+    assert_equal false, @controller.send(:validate_back_url, ActionController::Parameters.new('a' => '/admin'))
   end
 
   def test_validate_back_url_with_port

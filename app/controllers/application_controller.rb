@@ -527,7 +527,7 @@ class ApplicationController < ActionController::Base
   # Returns a validated URL string if back_url is a valid url for redirection,
   # otherwise false
   def validate_back_url(back_url)
-    return false if back_url.blank?
+    return false if back_url.blank? || !back_url.is_a?(String)
 
     if CGI.unescape(back_url).include?('..')
       return false
