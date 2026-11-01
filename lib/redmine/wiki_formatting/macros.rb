@@ -38,10 +38,7 @@ module Redmine
 
           method_name = "macro_#{name}"
           unless macro_options[:parse_args] == false
-            # Split the arguments by commas, but only if the commas
-            # are not within double quotes
-            args = args.split(/\s*,\s*(?=(?:[^"]*"[^"]*")*[^"]*$)/)
-                       .map {|i| i.gsub(/^"(.*)"$/, '\1').gsub('""', '"')}
+            args = split_macro_args(args)
           end
 
           begin
@@ -64,6 +61,26 @@ module Redmine
             args.pop
           end
           return [args, options]
+        end
+
+        # Splits the arguments by commas that are not within double quotes,
+        # scanning the string only once to avoid quadratic time on long input
+        def split_macro_args(args)
+          # A comma is outside double quotes when an even number of them follows it
+          quotes_after = args.count('"')
+          values = [+'']
+          args.split(/(\s*,\s*)/).each_with_index do |token, i|
+            if i.even?
+              quotes_after -= token.count('"')
+              values.last << token
+            elsif quotes_after.even?
+              values << +''
+            else
+              values.last << token
+            end
+          end
+          values.pop while values.last == ''
+          values.map {|v| v.gsub(/^"(.*)"$/, '\1').gsub('""', '"')}
         end
 
         def current_project(obj)
