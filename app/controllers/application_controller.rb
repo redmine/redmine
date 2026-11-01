@@ -527,7 +527,7 @@ class ApplicationController < ActionController::Base
   # Returns a validated URL string if back_url is a valid url for redirection,
   # otherwise false
   def validate_back_url(back_url)
-    return false if back_url.blank?
+    return false if back_url.blank? || !back_url.is_a?(String)
 
     if CGI.unescape(back_url).include?('..')
       return false
@@ -547,6 +547,12 @@ class ApplicationController < ActionController::Base
     end
 
     path = uri.to_s
+    # Browsers treat a backslash like a slash and remove ASCII tab and newline
+    # characters, so that a path like "/\example.com" points to another host
+    if /[\\\x00-\x1f]/.match?(path)
+      return false
+    end
+
     # Ensure that the remaining URL starts with a slash, followed by a
     # non-slash character or the end
     unless %r{\A/([^/]|\z)}.match?(path)
