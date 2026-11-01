@@ -175,11 +175,11 @@ class WikiToolbarTest < ApplicationSystemTestCase
   end
 
   def test_journal_notes_edit_should_keep_textarea_focus
-    log_user('jsmith', 'jsmith')
+    log_user('admin', 'admin')
     visit '/issues/1'
 
     within '#change-1' do
-      click_link 'Edit'
+      first('a.icon-edit').click
       assert_selector 'div.jstBlock div.jstEditor textarea#journal_1_notes'
     end
     assert_equal 'journal_1_notes', page.evaluate_script('document.activeElement.id')
@@ -189,6 +189,7 @@ class WikiToolbarTest < ApplicationSystemTestCase
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
 
+    assert_selector 'div.jstBlock .jstElements'
     page.execute_script(<<~JS)
       const block = document.querySelector('div.jstBlock')
       block.addEventListener('wiki-toolbar:button', ({ detail: { button, format, editor } }) => {
@@ -199,7 +200,7 @@ class WikiToolbarTest < ApplicationSystemTestCase
       btn.className = 'jstb_custom'
       btn.dataset.action = 'wiki-toolbar#apply'
       btn.dataset.wikiToolbarButtonParam = 'custom'
-      block.querySelector('.jstElements').append(btn)
+      block.querySelector('.jstElements').prepend(btn)
     JS
 
     fill_in 'Description', :with => 'hello'
@@ -212,7 +213,13 @@ class WikiToolbarTest < ApplicationSystemTestCase
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
 
-    page.execute_script("document.querySelector('div.jstBlock').style.width = '180px'")
+    assert_selector 'button.jstb_table'
+    page.execute_script(<<~JS)
+      const block = document.querySelector('div.jstBlock')
+      const btn = block.querySelector('button.jstb_table')
+      const rightOffset = btn.getBoundingClientRect().right - block.getBoundingClientRect().left
+      block.style.width = `${rightOffset + 60}px`
+    JS
     find('button.jstb_table').click
     assert_selector 'table.table-generator'
     overflow = page.evaluate_script(<<~JS)
