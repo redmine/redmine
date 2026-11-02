@@ -57,7 +57,7 @@ class LayoutTest < Redmine::IntegrationTest
     Role.anonymous.add_permission! :add_issues
 
     get '/projects/ecookbook/issues/new'
-    assert_select "head script:match('src',?)", %r{/assets/jstoolbar/jstoolbar-\w+.js}
+    assert_select "head script:match('src',?)", %r{/assets/jstoolbar/jstoolbar-[0-9a-f]+.js}
     assert_include "var userHlLanguages = #{UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.to_json};", response.body
   end
 

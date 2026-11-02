@@ -6121,7 +6121,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     reason = l(:notice_issue_not_closable_by_blocking_issue)
     assert_select 'span.icon-warning[title=?]', reason do
-      assert_select "svg.icon-svg use:match('href', ?)", /assets\/icons-\w+.svg#icon--warning/
+      assert_select "svg.icon-svg use:match('href', ?)", %r{assets/icons-[0-9a-f]+.svg#icon--warning}
       assert_select 'span.icon-label', test: reason
     end
   end
