@@ -58,7 +58,7 @@ class LayoutTest < Redmine::IntegrationTest
 
     get '/projects/ecookbook/issues/new'
     assert_select "head script:match('src',?)", %r{/assets/jstoolbar/}, 0
-    assert_select "head link[rel=stylesheet]:match('href',?)", %r{/assets/jstoolbar-\w+.css}
+    assert_select "head link[rel=stylesheet]:match('href',?)", %r{/assets/jstoolbar-[0-9a-f]+.css}
     assert_include "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};", response.body
     assert_select 'div.jstBlock:has(textarea#issue_description)' do
       UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.each do |lang|
