@@ -139,7 +139,7 @@ if Object.const_defined?(:Commonmarker)
       ],
       [
         'Lo<!-- comment -->rem</b> <a href=pants title="foo>ipsum <a href="http://example.com/"><strong>dolor</a></strong> sit<br/>amet <script>alert("hello world");',
-        'Lorem <a href="pants" title="foo>ipsum <a href="><strong>dolor</strong></a> sit<br>amet '
+        'Lorem <a href="pants" title="foo&gt;ipsum &lt;a href="><strong>dolor</strong></a> sit<br>amet '
       ],
       [
         '<p>a</p><blockquote>b',
