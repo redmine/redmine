@@ -2286,10 +2286,10 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'div.attachments' do
       assert_select 'a.icon-attachment[href=?]', '/attachments/1' do
-        assert_select "svg.icon-svg use:match('href', ?)", /assets\/icons-\w+.svg#icon--text-plain/
+        assert_select "svg.icon-svg use:match('href', ?)", %r{assets/icons-[0-9a-f]+.svg#icon--text-plain}
       end
       assert_select 'a.icon-attachment[href=?]', '/attachments/6' do
-        assert_select "svg.icon-svg use:match('href', ?)", /assets\/icons-\w+.svg#icon--application-zip/
+        assert_select "svg.icon-svg use:match('href', ?)", %r{assets/icons-[0-9a-f]+.svg#icon--application-zip}
       end
     end
   end
@@ -6346,7 +6346,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     reason = l(:notice_issue_not_closable_by_blocking_issue)
     assert_select 'span.icon-warning[title=?]', reason do
-      assert_select "svg.icon-svg use:match('href', ?)", /assets\/icons-\w+.svg#icon--warning/
+      assert_select "svg.icon-svg use:match('href', ?)", %r{assets/icons-[0-9a-f]+.svg#icon--warning}
       assert_select 'span.icon-label', test: reason
     end
   end
