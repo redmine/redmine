@@ -10,7 +10,7 @@ gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.4.0'
 gem 'marcel'
 gem 'mail', '~> 2.9.0'
-gem 'nokogiri', '~> 1.19.1'
+gem 'nokogiri', '~> 1.19.7'
 gem 'i18n', '~> 1.15.2'
 # Loaded on demand by lib/redmine/export/pdf/itcpdf.rb, keep `require: false`
 gem 'rbpdf', '~> 1.21.4', require: false
