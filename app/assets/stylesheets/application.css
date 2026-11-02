@@ -1973,15 +1973,17 @@ div.wiki table td[align=right], div.wiki table th[align=right] { text-align: end
 
 div.wiki .wiki-class-noborder, div.wiki .wiki-class-noborder td, div.wiki .wiki-class-noborder th {border:0;}
 
-div.wiki .external {
-  background-position: left 60%;
-  background-repeat: no-repeat;
-  padding-inline-start: 12px;
-  background-image: url(/external.png);
+div.wiki .external::after {
+  /* A word joiner keeps the icon from overflowing when a long URL wraps. */
+  content: "\2060";
+  margin-inline-start: 0.1em;
+  padding-inline-start: 1em;
+  background-color: var(--oc-gray-6);
+  mask: url(/external-link.svg) no-repeat center / 100% 100%;
 }
 
-html[dir="rtl"] div.wiki .external {
-  background-position: right 60%;
+html[dir="rtl"] div.wiki .external::after {
+  mask-image: url(/external-link-rtl.svg);
 }
 
 div.wiki a {word-wrap: break-word;}
