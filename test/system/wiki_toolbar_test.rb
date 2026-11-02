@@ -214,12 +214,7 @@ class WikiToolbarTest < ApplicationSystemTestCase
     visit '/projects/ecookbook/issues/new'
 
     assert_selector 'button.jstb_table'
-    page.execute_script(<<~JS)
-      const block = document.querySelector('div.jstBlock')
-      const btn = block.querySelector('button.jstb_table')
-      const rightOffset = btn.getBoundingClientRect().right - block.getBoundingClientRect().left
-      block.style.width = `${rightOffset + 60}px`
-    JS
+    page.execute_script("document.querySelector('div.jstBlock').style.width = '750px'")
     find('button.jstb_table').click
     assert_selector 'table.table-generator'
     overflow = page.evaluate_script(<<~JS)
