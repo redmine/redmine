@@ -112,7 +112,7 @@
 }
 
 .table-generator, .jstMenu {
-    position: absolute;
+    position: fixed;
     z-index: 100;
 }
 

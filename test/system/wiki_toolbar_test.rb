@@ -227,6 +227,22 @@ class WikiToolbarTest < ApplicationSystemTestCase
     assert_equal false, overflow
   end
 
+  def test_precode_menu_should_not_be_clipped_by_the_form
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/issues/new'
+
+    find('button.jstb_precode').click
+    assert_selector '.jstMenu'
+    visible = page.evaluate_script(<<~JS)
+      (() => {
+        const menu = document.querySelector('.jstMenu')
+        const rect = menu.getBoundingClientRect()
+        return menu.contains(document.elementFromPoint(rect.left + rect.width / 2, rect.bottom - 5))
+      })()
+    JS
+    assert visible
+  end
+
   private
 
   def select_text(id, start, finish)
