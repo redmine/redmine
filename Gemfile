@@ -45,7 +45,7 @@ gem "sanitize", "~> 7.0"
 
 # Optional gem for LDAP authentication
 group :ldap do
-  gem 'net-ldap', '~> 0.20.0'
+  gem 'net-ldap', '~> 0.21.0'
 end
 
 # Optional gem for exporting the gantt to a PNG file
