@@ -56,7 +56,7 @@ module Redmine
     # does not use the toolbar
     def self.buttons(format)
       helper = Redmine::WikiFormatting.helper_for(format)
-      helper::WIKI_TOOLBAR_BUTTONS if helper.const_defined?(:WIKI_TOOLBAR_BUTTONS, false)
+      helper.const_get(:WIKI_TOOLBAR_BUTTONS) if helper.const_defined?(:WIKI_TOOLBAR_BUTTONS)
     end
 
     # Returns the names of the buttons that open a dropdown menu

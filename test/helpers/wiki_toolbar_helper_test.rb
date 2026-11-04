@@ -92,6 +92,13 @@ class WikiToolbarHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_buttons_of_a_helper_including_a_core_helper
+    helper = Module.new {include Redmine::WikiFormatting::CommonMark::Helper}
+    Redmine::WikiFormatting.stubs(:helper_for).with('foo').returns(helper)
+
+    assert_equal Redmine::WikiFormatting::CommonMark::Helper::WIKI_TOOLBAR_BUTTONS, Redmine::WikiToolbar.buttons('foo')
+  end
+
   def test_buttons_should_be_translated
     with_settings :text_formatting => 'common_mark' do
       set_language_if_valid 'fr'
