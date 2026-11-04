@@ -19,15 +19,6 @@ runs:
         sudo apt-get install --yes --quiet ghostscript gsfonts locales subversion bzr cvs mercurial imagemagick pandoc
         sudo locale-gen en_US # for bazaar non ascii test
 
-    - name: Allow imagemagick to read PDF files
-      shell: bash
-      run: |
-        echo '<policymap>' > policy.xml
-        echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> policy.xml
-        echo '</policymap>' >> policy.xml
-        sudo rm /etc/ImageMagick-6/policy.xml
-        sudo mv policy.xml /etc/ImageMagick-6/policy.xml
-
     - if: ${{ inputs.db-type == 'sqlite3' }}
       name: Prepare test database for sqlite3
       shell: bash

@@ -6,7 +6,7 @@ on:
 jobs:
   tests:
     name: test ${{matrix.db}} ruby-${{ matrix.ruby }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     strategy:
       matrix:
@@ -69,7 +69,7 @@ jobs:
 
   system-tests:
     name: system test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout code

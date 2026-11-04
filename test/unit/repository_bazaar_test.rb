@@ -167,20 +167,20 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
     if File.directory?(REPOSITORY_PATH_NON_ASCII) && RUN_LATIN1_OUTPUT_TEST
       # https://www.redmine.org/issues/42024
-      def skip_bzr_failure_on_ubuntu24
+      def skip_bzr_failure_on_ubuntu
         return unless File.exist?('/etc/os-release')
 
         os_release = File.read('/etc/os-release')
         name = os_release[/^NAME="(.+?)"$/, 1]
         version = os_release[/^VERSION_ID="(.+?)"$/, 1]
 
-        if name == 'Ubuntu' && version == '24.04'
-          skip 'bzr command fails on Ubuntu 24.04, causing this test to fail'
+        if name == 'Ubuntu' && %w(24.04 26.04).include?(version)
+          skip "bzr command fails on Ubuntu #{version}, causing this test to fail"
         end
       end
 
       def test_cat_latin1_path
-        skip_bzr_failure_on_ubuntu24
+        skip_bzr_failure_on_ubuntu
 
         latin1_repo = create_latin1_repo
         buf =
@@ -202,7 +202,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       end
 
       def test_annotate_latin1_path
-        skip_bzr_failure_on_ubuntu24
+        skip_bzr_failure_on_ubuntu
 
         latin1_repo = create_latin1_repo
         ann1 =
@@ -224,7 +224,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       end
 
       def test_diff_latin1_path
-        skip_bzr_failure_on_ubuntu24
+        skip_bzr_failure_on_ubuntu
 
         latin1_repo = create_latin1_repo
         diff1 =
@@ -237,7 +237,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       end
 
       def test_entries_latin1_path
-        skip_bzr_failure_on_ubuntu24
+        skip_bzr_failure_on_ubuntu
 
         latin1_repo = create_latin1_repo
         entries = latin1_repo.entries("test-#{CHAR_1_UTF8_HEX}-dir", 2)
@@ -249,7 +249,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       end
 
       def test_entry_latin1_path
-        skip_bzr_failure_on_ubuntu24
+        skip_bzr_failure_on_ubuntu
 
         latin1_repo = create_latin1_repo
         ["test-#{CHAR_1_UTF8_HEX}-dir",
@@ -269,7 +269,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       end
 
       def test_changeset_latin1_path
-        skip_bzr_failure_on_ubuntu24
+        skip_bzr_failure_on_ubuntu
 
         latin1_repo = create_latin1_repo
         assert_equal 0, latin1_repo.changesets.count
