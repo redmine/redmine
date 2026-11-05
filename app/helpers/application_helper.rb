@@ -1444,7 +1444,10 @@ module ApplicationHelper
 
     text.gsub!(HEADING_RE) do
       level, attrs, content = $2.to_i, $3, $4
-      item = strip_tags(content).strip
+      # Remove HTML tags using the same sanitizer as strip_tags, without escaping quotes.
+      # Keep quotes literal so sanitize_anchor_name removes them rather than leaving
+      # parts of HTML entities in the anchor (e.g. &#39; becoming 39).
+      item = self.class.full_sanitizer.sanitize(content).strip
       anchor = sanitize_anchor_name(item)
       # used for single-file wiki export
       if options[:wiki_links] == :anchor && (obj.is_a?(WikiContent) ||
@@ -1456,7 +1459,7 @@ module ApplicationHelper
       if idx > 1
         anchor = "#{anchor}-#{idx}"
       end
-      @parsed_headings << [level, anchor, item]
+      @parsed_headings << [level, anchor, ERB::Util.html_escape_once(item)]
       "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}" \
         "<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
     end
