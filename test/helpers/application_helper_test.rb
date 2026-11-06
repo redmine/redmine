@@ -1366,15 +1366,29 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_headings_with_special_chars
-    # This test makes sure that the generated anchor names match the expected
-    # ones even if the heading text contains unconventional characters
-    raw = 'h1. Some heading related to version 0.5'
-    anchor = sanitize_anchor_name("Some-heading-related-to-version-0.5")
-    expected =
-      %|<a name="#{anchor}"></a>\n<h1 >Some heading related to version 0.5| +
-        %|<a href="##{anchor}" class="wiki-anchor">&para;</a></h1>|
-    with_settings :text_formatting => 'textile' do
-      assert_equal expected, textilizable(raw)
+    # Each value is [expected anchor name, expected HTML-escaped TOC text].
+    headings = {
+      'Some heading related to version 0.5' =>
+        ['Some-heading-related-to-version-05', 'Some heading related to version 0.5'],
+      "Bob's guide" => ['Bobs-guide', 'Bob&#39;s guide'],
+      'The "quoted" guide' => ['The-quoted-guide', 'The &quot;quoted&quot; guide'],
+      "*Bob's* & B" => ['Bobs-amp-B', 'Bob&#39;s &amp; B'],
+      '&lt;img src=x onerror=alert(1)&gt;' =>
+        ['ltimg-srcx-onerroralert1gt', '&lt;img src=x onerror=alert(1)&gt;']
+    }
+
+    {'textile' => 'h1.', 'common_mark' => '#'}.each do |format, prefix|
+      with_settings :text_formatting => format do
+        headings.each do |heading, (anchor, escaped_heading)|
+          raw = "{{toc}}\n\n#{prefix} #{heading}\n\n[[##{anchor}|Wiki link]]"
+          html = textilizable(raw)
+
+          assert_select_in html, 'a[name=?]', anchor, :count => 1
+          assert_select_in html, 'h1 a.wiki-anchor[href=?]', "##{anchor}", :count => 1
+          assert_include %(<a href="##{anchor}">#{escaped_heading}</a>), html
+          assert_select_in html, 'a.wiki-page[href=?]', "##{anchor}", :text => 'Wiki link'
+        end
+      end
     end
   end
 
