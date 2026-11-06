@@ -43,7 +43,7 @@ FileUtils.mkdir_p $redmine_tmp_attachments_directory
 
 $redmine_tmp_pdf_directory = "#{Rails.root}/tmp/test/pdf"
 FileUtils.mkdir_p $redmine_tmp_pdf_directory
-FileUtils.rm Dir.glob('#$redmine_tmp_pdf_directory/*.pdf')
+FileUtils.rm Dir.glob("#{$redmine_tmp_pdf_directory}/*.pdf")
 
 class ActionView::TestCase
   helper :application
