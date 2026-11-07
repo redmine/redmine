@@ -256,7 +256,8 @@ module SettingsHelper
   end
 
   def gravatar_default_setting_options
-    [['Initials', 'initials'],
+    [['Initials (Redmine)', ''],
+     ['Initials (Gravatar)', 'initials'],
      ['Color', 'color'],
      ['Mystery man', 'mm'],
      ['Identicons', 'identicon'],
