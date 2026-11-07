@@ -1544,3 +1544,5 @@ it:
   reaction_text_x_other_users:
     one: "1 altro"
     other: "%{count} altri"
+  notice_search_tokens_truncated: 'A maximum of %{max} search terms can be used. Only
+    the following terms were used: %{tokens}'

@@ -1553,3 +1553,5 @@ ja:
   text_setting_gravatar_enabled_fallback: 有効にするとRedmineでアバターを設定していないユーザーにはGravatarが使用されます。
   setting_favicon: カスタムファビコン
   text_setting_favicon_format: PNGまたはICO、最大 %{max_size}
+  notice_search_tokens_truncated: 'A maximum of %{max} search terms can be used. Only
+    the following terms were used: %{tokens}'

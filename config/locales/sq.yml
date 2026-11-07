@@ -1583,3 +1583,5 @@ sq:
   label_show_more: Show more
   setting_favicon: Custom favicon
   text_setting_favicon_format: PNG or ICO, up to %{max_size}
+  notice_search_tokens_truncated: 'A maximum of %{max} search terms can be used. Only
+    the following terms were used: %{tokens}'
