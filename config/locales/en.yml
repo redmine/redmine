@@ -1420,7 +1420,7 @@ en:
   text_select_apply_issue_status: "Select issue status"
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>. You can configure it in config/configuration.yml.
   text_avatar_uploaded: The uploaded image is currently used as the avatar.
-  text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated with the user's email address is currently used as the avatar. It can be changed on that site.
+  text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated with the user's email address is currently used as the avatar. It can be changed on that site. If no image is registered there, a default avatar is shown.
   text_avatar_initials: The image generated from the user's name is currently used as the avatar.
   text_avatar_upload_instead: You can upload an image to use instead.
   text_avatar_upload_disabled: Uploading an avatar image to Redmine has been disabled by the administrator.

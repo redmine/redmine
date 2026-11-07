@@ -1545,7 +1545,7 @@ ja:
   setting_avatar_enabled: ユーザーによるアバターの設定を許可
   button_change_avatar: アバター変更
   text_avatar_uploaded: 現在はアップロードされた画像がアバターとして使用されています。
-  text_avatar_from_server_html: 現在は <a href="%{url}">%{url}</a> でユーザーのメールアドレスに関連づけられている画像がアバターとして使用されています。変更はそのサイトで行えます。
+  text_avatar_from_server_html: 現在は <a href="%{url}">%{url}</a> でユーザーのメールアドレスに関連づけられている画像がアバターとして使用されています。変更はそのサイトで行えます。そのサイトに画像が登録されていない場合はデフォルトのアバターが表示されます。
   text_avatar_initials: 現在はユーザーの名前から生成された画像がアバターとして使用されています。
   text_avatar_upload_instead: 代わりに使用する画像をアップロードすることもできます。
   text_avatar_upload_disabled: アバター画像のアップロードは管理者によって無効にされています。

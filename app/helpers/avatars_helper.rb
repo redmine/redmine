@@ -128,6 +128,17 @@ module AvatarsHelper
 
   def gravatar_avatar_tag(user, options)
     options[:default] = Setting.gravatar_default
+    if options[:default].blank? && user.respond_to?(:initials) && user.initials.present?
+      # Gravatar responds with 404 if no avatar is registered for the email,
+      # then the image is replaced with the initials avatar on the client side
+      options[:default] = '404'
+      options[:data] = (options[:data] || {}).merge(
+        controller: 'initials-avatar-fallback',
+        action: 'error->initials-avatar-fallback#replace',
+        initials_avatar_fallback_initials_value: user.initials,
+        initials_avatar_fallback_class_value: initials_avatar_css_class(user, options)
+      )
+    end
     options[:class] = [GravatarHelper::DEFAULT_OPTIONS[:class], options[:class]].compact.join(' ')
 
     email = extract_email_from_user(user)
@@ -143,11 +154,15 @@ module AvatarsHelper
   end
 
   def initials_avatar_tag(user, options)
-    size = (options.delete(:size) || GravatarHelper::DEFAULT_OPTIONS[:size]).to_i
-
-    css_class = ["avatar-color-#{user.id % 8}", "s#{size}", options[:class]].compact.join(' ')
+    css_class = initials_avatar_css_class(user, options)
 
     content_tag('span', user.initials, role: 'img', class: css_class, title: options[:title])
+  end
+
+  def initials_avatar_css_class(user, options)
+    size = (options[:size] || GravatarHelper::DEFAULT_OPTIONS[:size]).to_i
+
+    ["avatar-color-#{user.id % 8}", "s#{size}", options[:class]].compact.join(' ')
   end
 
   def extract_email_from_user(user)

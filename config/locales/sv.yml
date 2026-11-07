@@ -1564,7 +1564,7 @@ sv:
   setting_avatar_enabled: Tillåt användare att välja sin avatar
   button_change_avatar: Ändra avatar
   text_avatar_uploaded: Den uppladdade bilden används just nu som avatar.
-  text_avatar_from_server_html: 'Bilden från <a href="%{url}">%{url}</a> som hör till användarens e-postadress används just nu som avatar. Den kan bara ändras på den webbplatsen.'
+  text_avatar_from_server_html: 'Bilden från <a href="%{url}">%{url}</a> som hör till användarens e-postadress används just nu som avatar. Den kan bara ändras på den webbplatsen. If no image is registered there, a default avatar is shown.'
   text_avatar_initials: Bilden som skapats av användarens namn används just nu som avatar.
   text_avatar_upload_instead: Du kan ladda upp en bild att användas i stället.
   text_avatar_upload_disabled: Administratören har stängt av uppladdning av avatarbilder till Redmine.

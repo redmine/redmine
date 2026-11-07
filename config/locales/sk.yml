@@ -1597,7 +1597,7 @@ sk:
   text_avatar_uploaded: The uploaded image is currently used as the avatar.
   text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated
     with the user's email address is currently used as the avatar. It can be changed
-    on that site.
+    on that site. If no image is registered there, a default avatar is shown.
   text_avatar_initials: The image generated from the user's name is currently used as
     the avatar.
   text_avatar_upload_instead: You can upload an image to use instead.
