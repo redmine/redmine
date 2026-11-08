@@ -219,6 +219,15 @@ class WikiToolbarHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_wikitoolbar_for_should_render_nothing_without_buttons
+    helper = Module.new {include Redmine::WikiToolbar::Helper}
+    Redmine::WikiFormatting.stubs(:helper_for).returns(helper)
+
+    assert_deprecated(/wikitoolbar_for is deprecated/, Rails.application.deprecators[:redmine]) do
+      assert_nil wikitoolbar_for('issue_description')
+    end
+  end
+
   def test_heads_for_wiki_formatter_should_only_define_image_mime_types
     with_settings :text_formatting => 'common_mark' do
       heads_for_wiki_formatter

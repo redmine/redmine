@@ -87,6 +87,8 @@ module Redmine
           'wikitoolbar_for is deprecated and will be removed in Redmine 8.0. ' \
           'Please use LabelledFormBuilder#wiki_textarea or wiki_textarea_tag instead.'
         )
+        return unless Redmine::WikiToolbar.buttons(Setting.text_formatting)
+
         heads_for_wiki_formatter
         render(partial: 'wiki_toolbar/toolbar',
                locals: {field_id: field_id, field: nil, preview_url: preview_url, adopt_field: true})
