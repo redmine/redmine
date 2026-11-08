@@ -72,6 +72,7 @@ export default class extends Controller {
   }
 
   shortcut(event) {
+    if (!this.hasFieldTarget) return
     if (event.target !== this.field || event.shiftKey || event.altKey) return
     if (!(isMac ? event.metaKey : event.ctrlKey)) return
 
@@ -113,6 +114,7 @@ export default class extends Controller {
   // Ctrl/Cmd+Shift+P previews the focused textarea, or switches the last
   // previewed one back to edit mode
   togglePreview(event) {
+    if (!this.hasFieldTarget) return
     if (event.target === this.field) {
       event.preventDefault()
       this.preview()
