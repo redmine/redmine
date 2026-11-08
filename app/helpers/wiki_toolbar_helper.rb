@@ -37,7 +37,10 @@ module WikiToolbarHelper
   # #wiki_textarea_options.
   def wiki_toolbar(field_id, preview_url: preview_text_path, &)
     field = capture(&)
-    return field unless Redmine::WikiToolbar.buttons(Setting.text_formatting)
+    unless Redmine::WikiToolbar.buttons(Setting.text_formatting)
+      # Text formatters that don't use the toolbar can provide their own editor
+      return field + wikitoolbar_for(field_id, preview_url).to_s
+    end
 
     heads_for_wiki_formatter
     render(partial: 'wiki_toolbar/toolbar', locals: {field_id: field_id, field: field, preview_url: preview_url})

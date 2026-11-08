@@ -56,6 +56,19 @@ class WikiToolbarHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_wiki_textarea_tag_should_render_the_editor_of_a_formatter_without_toolbar_buttons
+    helper = Module.new do
+      def wikitoolbar_for(field_id, preview_url)
+        tag.div(:id => "editor-for-#{field_id}")
+      end
+    end
+    Redmine::WikiFormatting.stubs(:helper_for).returns(helper)
+
+    html = render_erb("<%= wiki_textarea_tag('notes') %>")
+    assert_select_in html, 'textarea#notes + div#editor-for-notes'
+    assert_select_in html, 'div.jstBlock', 0
+  end
+
   def test_wiki_textarea_tag_should_not_duplicate_the_wiki_edit_class
     with_settings :text_formatting => 'textile' do
       html = render_erb("<%= wiki_textarea_tag('notes', '', :class => 'wiki-edit other') %>")
