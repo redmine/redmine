@@ -19,7 +19,7 @@
 
 require_relative '../test_helper'
 
-class AttachmentTest < ActiveSupport::TestCase
+class AttachmentTransactionTest < ActiveSupport::TestCase
   self.use_transactional_tests = false
 
   def setup
