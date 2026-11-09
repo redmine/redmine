@@ -162,7 +162,7 @@ module AvatarsHelper
   def initials_avatar_css_class(user, options)
     size = (options[:size] || GravatarHelper::DEFAULT_OPTIONS[:size]).to_i
 
-    ["avatar-color-#{user.id % 8}", "s#{size}", options[:class]].compact.join(' ')
+    ["avatar-color-#{user.id % 16}", "s#{size}", options[:class]].compact.join(' ')
   end
 
   def extract_email_from_user(user)

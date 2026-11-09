@@ -2496,7 +2496,7 @@ span[role="img"].avatar.s100  {
 }
 
 .avatar-color-0 {
-  background-color: var(--oc-red-7);
+  background-color: var(--oc-blue-9);
   color: var(--oc-white);
 }
 .avatar-color-1 {
@@ -2504,11 +2504,11 @@ span[role="img"].avatar.s100  {
   color: var(--oc-white);
 }
 .avatar-color-2 {
-  background-color: var(--oc-yellow-4);
-  color: var(--oc-black);
+  background-color: var(--oc-indigo-6);
+  color: var(--oc-white);
 }
 .avatar-color-3 {
-  background-color: var(--oc-green-7);
+  background-color: var(--oc-red-8);
   color: var(--oc-white);
 }
 .avatar-color-4 {
@@ -2516,16 +2516,48 @@ span[role="img"].avatar.s100  {
   color: var(--oc-white);
 }
 .avatar-color-5 {
-  background-color: var(--oc-blue-7);
+  background-color: var(--oc-pink-9);
   color: var(--oc-white);
 }
 .avatar-color-6 {
-  background-color: var(--oc-grape-7);
-  color: var(--oc-white);
+  background-color: var(--oc-teal-3);
+  color: var(--oc-black);
 }
 .avatar-color-7 {
+  background-color: var(--oc-grape-8);
+  color: var(--oc-white);
+}
+.avatar-color-8 {
+  background-color: var(--oc-yellow-5);
+  color: var(--oc-black);
+}
+.avatar-color-9 {
+  background-color: var(--oc-violet-3);
+  color: var(--oc-black);
+}
+.avatar-color-10 {
+  background-color: var(--oc-lime-4);
+  color: var(--oc-black);
+}
+.avatar-color-11 {
   background-color: var(--oc-pink-5);
   color: var(--oc-white);
+}
+.avatar-color-12 {
+  background-color: var(--oc-green-7);
+  color: var(--oc-white);
+}
+.avatar-color-13 {
+  background-color: var(--oc-grape-5);
+  color: var(--oc-white);
+}
+.avatar-color-14 {
+  background-color: var(--oc-teal-9);
+  color: var(--oc-white);
+}
+.avatar-color-15 {
+  background-color: var(--oc-red-3);
+  color: var(--oc-black);
 }
 
 /* Reaction styles */
