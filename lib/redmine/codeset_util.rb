@@ -22,13 +22,7 @@ module Redmine
     def self.replace_invalid_utf8(str)
       return nil if str.nil?
 
-      str = str.dup
-      str.force_encoding('UTF-8')
-      unless str.valid_encoding?
-        str = str.encode("UTF-16LE", :invalid => :replace,
-              :undef => :replace, :replace => '?').encode("UTF-8")
-      end
-      str
+      str.dup.force_encoding('UTF-8').scrub('?')
     end
 
     def self.to_utf8(str, encoding)
