@@ -202,7 +202,7 @@ module Redmine
             end
 
             if projects
-              scope = scope.where("#{searchable_options[:project_key]} IN (?)", projects.map(&:id))
+              scope = scope.where(searchable_options[:project_key] => projects.map(&:id))
             end
             scope
           end
