@@ -1107,6 +1107,24 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_select 'errors error', :text => "Assignee is invalid"
   end
 
+  test "PUT /issues/:id.xml with empty assignee should unassign the issue" do
+    put(
+      '/issues/2.xml',
+      :params => '<issue><assigned_to_id/></issue>',
+      :headers => {'CONTENT_TYPE' => 'application/xml'}.merge(credentials('jsmith')))
+    assert_response :no_content
+    assert_nil Issue.find(2).assigned_to_id
+  end
+
+  test "PUT /issues/:id.json with null assignee should unassign the issue" do
+    put(
+      '/issues/2.json',
+      :params => {:issue => {:assigned_to_id => nil}}.to_json,
+      :headers => {'CONTENT_TYPE' => 'application/json'}.merge(credentials('jsmith')))
+    assert_response :no_content
+    assert_nil Issue.find(2).assigned_to_id
+  end
+
   test "PUT /issues/:id.json" do
     assert_difference('Journal.count') do
       put(

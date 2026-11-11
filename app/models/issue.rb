@@ -631,8 +631,9 @@ class Issue < ApplicationRecord
          !attrs.key?('is_private') && safe_attribute?('is_private', user)
       attrs['is_private'] = '1'
     end
-    if (u = attrs.delete('assigned_to_id')) && safe_attribute?('assigned_to_id')
-      self.assigned_to_id = u
+    if attrs.key?('assigned_to_id')
+      assigned_to_id = attrs.delete('assigned_to_id')
+      self.assigned_to_id = assigned_to_id if safe_attribute?('assigned_to_id')
     end
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
