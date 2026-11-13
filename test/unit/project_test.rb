@@ -1091,6 +1091,12 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  def test_allowed_to_condition_should_not_query_members_for_user_without_memberships
+    condition = Project.allowed_to_condition(User.anonymous, :view_issues)
+
+    assert_not_includes condition, Member.table_name
+  end
+
   def test_safe_attributes_should_include_only_custom_fields_visible_to_user
     cf1 = ProjectCustomField.create!(:name => 'Visible field',
                                    :field_format => 'string',

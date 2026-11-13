@@ -214,12 +214,17 @@ class Project < ApplicationRecord
       unless options[:member]
         role = user.builtin_role
         if role.allowed_to?(permission, oauth_scope)
-          s = "#{Project.table_name}.is_public = #{connection.quoted_true}"
-          if user.id
+          public_project_condition = "#{Project.table_name}.is_public = #{connection.quoted_true}"
+          # The subquery is not needed when project_ids_by_role is empty: the
+          # user and the builtin group have no memberships, so it would return
+          # nothing
+          if user.id.nil? || user.project_ids_by_role.empty?
+            s = public_project_condition
+          else
             group = role.anonymous? ? Group.anonymous : Group.non_member
             principal_ids = [user.id, group.id].compact
             s =
-              "(#{s} AND #{Project.table_name}.id NOT IN " \
+              "(#{public_project_condition} AND #{Project.table_name}.id NOT IN " \
                 "(SELECT project_id FROM #{Member.table_name} " \
                 "WHERE user_id IN (#{principal_ids.join(',')})))"
           end
