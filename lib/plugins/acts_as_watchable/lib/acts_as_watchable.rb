@@ -116,7 +116,7 @@ module Redmine
           user_ids |= principal.group_ids if principal.is_a?(User)
           user_ids.compact!
 
-          (self.watcher_user_ids & user_ids).any?
+          watcher_user_ids.intersect?(user_ids)
         end
 
         def notified_watchers
