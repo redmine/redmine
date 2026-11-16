@@ -172,6 +172,7 @@
         wrong_length: "字數錯誤（必須是 %{count} 個字）"
         taken: "已經被使用"
         not_a_number: "不是數字"
+        not_a_date: "不是有效的日期"
         greater_than: "必須大於 %{count}"
         greater_than_or_equal_to: "必須大於或等於 %{count}"
         equal_to: "必須等於 %{count}"
@@ -192,7 +193,7 @@
         must_contain_digits: "必須包含數字 (0-9)"
         must_contain_special_chars: "必須包含特殊字元 (!, $, %, ...)"
         domain_not_allowed: "包含不允許的網域 (%{domain})"
-        too_simple: "is too simple"
+        too_simple: "過於簡單"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -220,6 +221,9 @@
       #   user:
       #     login: "Handle"
       # will translate User attribute "login" as "Handle"
+    attributes:
+      "doorkeeper/application":
+        scopes: 權限範圍
 
   actionview_instancetag_blank_option: 請選擇
 
@@ -385,8 +389,8 @@
   field_new_password: 新密碼
   field_password_confirmation: 確認新密碼
   field_version: 版本
-  field_type: Type
-  field_host: Host
+  field_type: 類型
+  field_host: 主機
   field_port: 連接埠
   field_account: 帳戶
   field_base_dn: Base DN
@@ -863,7 +867,7 @@
   label_index_by_title: 依標題索引
   label_index_by_date: 依日期索引
   label_preview: 預覽
-  label_feed_plural: Feeds
+  label_feed_plural: RSS 訊息來源
   label_changes_details: 所有變更的明細
   label_issue_tracking: 議題追蹤
   label_spent_time: 耗用工時
@@ -1492,7 +1496,7 @@
   setting_issue_done_ratio_interval: 完成比例選項的間隔值
   setting_copy_attachments_on_issue_copy: 連同附件檔案一起複製
   field_thousands_delimiter: 千分位分隔符號
-  label_involved_principals: Author / Recent participants
+  label_involved_principals: 作者 / 最近參與者
   label_attachment_summary:
     zero: "%{filename}"
     one: "%{filename} 與另 1 個檔案"
@@ -1510,7 +1514,7 @@
     one: 1 位其他用戶
     other: "%{count} 位其他用戶"
   text_setting_gravatar_default_initials_html: 用戶姓名的首字母縮寫將被送往 <a href="%{url}">%{url}</a>
-    用以產生其大頭貼.
+    用以產生其大頭像.
   permission_view_project: 檢視專案
   permission_search_project: 搜尋專案
   permission_view_members: 檢視專案成員
@@ -1574,7 +1578,7 @@
   label_wiki_toolbar_heading_3: 標題 3
   label_wiki_toolbar_unordered_list: 項目清單
   label_wiki_toolbar_ordered_list: 編號清單
-  label_wiki_toolbar_task_list: Task list
+  label_wiki_toolbar_task_list: 待辦清單
   label_wiki_toolbar_quote: 引文
   label_wiki_toolbar_unquote: 取消引文
   label_wiki_toolbar_table: 表格
@@ -1582,7 +1586,7 @@
   label_wiki_toolbar_preformatted_code: 反白程式碼
   label_wiki_toolbar_wiki_link: 連結至 Wiki 頁面
   label_wiki_toolbar_image: 圖片
-  label_wiki_toolbar_help: Help
+  label_wiki_toolbar_help: 說明
   label_assignee_dropdown_display_format_users_by_group: 依群組顯示使用者
   button_remove_from_group: 移除群組
   button_add_to_group: 加入群組
@@ -1594,43 +1598,32 @@
   error_issue_status_in_use_by_issues: 這個狀態正被某些議題使用中
   error_issue_status_default_for_trackers: 這個狀態正被某些追蹤標籤設為預設狀態中
   text_users_remove_from_group_confirmation: 您確定要將選取的用戶從 %{group} 群組中移除嗎？
-  webhook_secret_keep_info: The secret of another user is not displayed. Leave this
-    field blank to keep it unchanged.
-  webhook_disabled_info_html: Webhooks are disabled, so none of the webhooks below is
-    triggered. They are still listed here so that they can be reviewed or removed. Webhooks
-    can be enabled in the %{link} settings.
-  permission_export_issues: Export issues
-  permission_export_time_entries: Export time entries
-  label_users_and_groups: Users and groups
-  mail_subject_test_email: Redmine test
-  mail_body_test_email: This is a test email sent by Redmine.
-  text_mermaid_available: Mermaid.js available (optional)
-  label_member_view_all: View all members
-  field_date: Date
-  label_non_working_date_plural: Non-working dates
-  label_non_working_date_new: New non-working date
-  text_non_working_dates_html: 'You can add non-working dates such as holidays: <a href="%{non_working_dates_path}">Manage
-    non-working dates</a>'
-  text_non_working_dates_export_all_years: Non-working dates of all years will be exported.
-  label_import_non_working_dates: Import non-working dates
-  field_avatar: Avatar
-  setting_avatar_enabled: Allow users to set their avatar
-  button_change_avatar: Change avatar
-  text_avatar_uploaded: The uploaded image is currently used as the avatar.
-  text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated
-    with the user's email address is currently used as the avatar. It can be changed
-    on that site. If no image is registered there, a default avatar is shown.
-  text_avatar_initials: The image generated from the user's name is currently used as
-    the avatar.
-  text_avatar_upload_instead: You can upload an image to use instead.
-  text_avatar_upload_disabled: Uploading an avatar image to Redmine has been disabled
-    by the administrator.
-  text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick is not available,
-    so users cannot set their avatar.
-  text_setting_gravatar_enabled_fallback: If enabled, Gravatar is used for users who
-    have not set their avatar in Redmine.
-  label_show_more: Show more
-  setting_favicon: Custom favicon
-  text_setting_favicon_format: PNG or ICO, up to %{max_size}
-  notice_search_tokens_truncated: 'A maximum of %{max} search terms can be used. Only
-    the following terms were used: %{tokens}'
+  webhook_secret_keep_info: 其他用戶設定的密鑰不會被顯示。若要保持不變，請將此欄位留白。
+  webhook_disabled_info_html: Webhooks 目前已停用，因此下列 webhooks 都不會被觸發。仍將其列於此處，以便檢視或移除。您可於 %{link} 設定中啟用 webhooks。
+  permission_export_issues: 匯出議題
+  permission_export_time_entries: 匯出工時紀錄
+  label_users_and_groups: 用戶與群組
+  mail_subject_test_email: Redmine 測試郵件
+  mail_body_test_email: 這是一封由 Redmine 寄出的測試郵件。
+  text_mermaid_available: 可使用 Mermaid.js (選配)
+  label_member_view_all: 檢視全部的成員
+  field_date: 日期
+  label_non_working_date_plural: 非工作日
+  label_non_working_date_new: 建立新的非工作日
+  text_non_working_dates_html: '您可以新增國定假日等非工作日：<a href="%{non_working_dates_path}">管理非工作日</a>'
+  text_non_working_dates_export_all_years: 將匯出所有年度的非工作日。
+  label_import_non_working_dates: 匯入非工作日
+  field_avatar: 大頭像
+  setting_avatar_enabled: 允許用戶設定自己的大頭像
+  button_change_avatar: 變更大頭像
+  text_avatar_uploaded: 目前使用已上傳的圖片作為大頭像。
+  text_avatar_from_server_html: 目前使用 <a href="%{url}">%{url}</a> 上與用戶電子郵件地址相關聯的圖片作為大頭像，可於該網站變更。若該網站未登錄圖片，則顯示預設大頭像。
+  text_avatar_initials: 目前使用依用戶姓名產生的圖片作為大頭像。
+  text_avatar_upload_instead: 您可以上傳圖片來取代。
+  text_avatar_upload_disabled: 管理員已停用上傳大頭像圖片至 Redmine 的功能。
+  text_setting_avatar_enabled_imagemagick_unavailable: 由於無法使用 ImageMagick，用戶無法設定自己的大頭像。
+  text_setting_gravatar_enabled_fallback: 若啟用，未在 Redmine 中設定大頭像的用戶將使用 Gravatar。
+  label_show_more: 顯示更多
+  setting_favicon: 自訂網站圖示 (favicon)
+  text_setting_favicon_format: PNG 或 ICO 格式，最大 %{max_size}
+  notice_search_tokens_truncated: '最多只能使用 %{max} 個搜尋關鍵字，僅使用了下列關鍵字：%{tokens}'
