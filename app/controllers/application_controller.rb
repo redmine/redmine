@@ -773,6 +773,18 @@ class ApplicationController < ActionController::Base
     name
   end
 
+  # Streams a ZIP file built in the given block, which receives a
+  # Redmine::Export::ZipArchive
+  def send_zip_stream(file_name)
+    user = User.current
+    # Let reverse proxies such as nginx buffer the response so that
+    # the application process is released without waiting for slow clients
+    response.headers['x-accel-buffering'] = 'yes'
+    zip_kit_stream(:filename => filename_for_content_disposition(file_name)) do |streamer|
+      yield Redmine::Export::ZipArchive.new(streamer, user)
+    end
+  end
+
   def api_request?
     %w(xml json).include? params[:format]
   end

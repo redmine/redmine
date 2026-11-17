@@ -1389,11 +1389,13 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def zip_entries_from_response
     entries = {}
+    zip_data = +''
+    @response.body.each {|chunk| zip_data << chunk}
 
-    Zip::InputStream.open(StringIO.new(@response.body)) do |io|
-      while (entry = io.get_next_entry)
+    Zip::File.open_buffer(zip_data) do |zip|
+      zip.each do |entry|
         entries[entry.name] = {
-          :content => io.read,
+          :content => entry.get_input_stream.read,
           :dos_time => entry.instance_variable_get(:@time),
           :utc_time => entry.extra[:universaltime]&.mtime
         }

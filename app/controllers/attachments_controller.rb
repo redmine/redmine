@@ -144,16 +144,17 @@ class AttachmentsController < ApplicationController
   end
 
   def download_all
-    zip_data = Attachment.archive_attachments(@attachments)
-    if zip_data
-      file_name = "#{@container.class.to_s.downcase}-#{@container.id}-attachments.zip"
-      send_data(
-        zip_data,
-        :type => Redmine::MimeType.of(file_name),
-        :filename => file_name
-      )
-    else
+    if @attachments.blank?
       render_404
+      return
+    end
+
+    send_zip_stream("#{@container.class.to_s.downcase}-#{@container.id}-attachments.zip") do |zip|
+      @attachments.each do |attachment|
+        zip.add_file(attachment.filename, attachment.created_on) do |sink|
+          File.open(attachment.diskfile, 'rb') {|file| IO.copy_stream(file, sink)}
+        end
+      end
     end
   end
 

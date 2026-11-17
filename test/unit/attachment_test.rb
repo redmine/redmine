@@ -397,36 +397,6 @@ class AttachmentTest < ActiveSupport::TestCase
     end
   end
 
-  def test_archive_attachments
-    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1)
-    zip_data = Attachment.archive_attachments([attachment])
-    file_names = []
-    Zip::InputStream.open(StringIO.new(zip_data)) do |io|
-      while (entry = io.get_next_entry)
-        file_names << entry.name
-      end
-    end
-    assert_equal ['testfile.txt'], file_names
-  end
-
-  def test_archive_attachments_without_attachments
-    zip_data = Attachment.archive_attachments([])
-    assert_nil zip_data
-  end
-
-  def test_archive_attachments_should_rename_duplicate_file_names
-    attachment1 = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1)
-    attachment2 = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1)
-    zip_data = Attachment.archive_attachments([attachment1, attachment2])
-    file_names = []
-    Zip::InputStream.open(StringIO.new(zip_data)) do |io|
-      while (entry = io.get_next_entry)
-        file_names << entry.name
-      end
-    end
-    assert_equal ['testfile.txt', 'testfile(1).txt'], file_names
-  end
-
   def test_move_from_root_to_target_directory_should_move_root_files
     a = Attachment.find(20)
     assert a.disk_directory.blank?

@@ -793,7 +793,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :ok
     assert_equal response.headers['Content-Type'], 'application/zip'
     assert_match /issue-2-attachments.zip/, response.headers['Content-Disposition']
-    assert_not_includes Dir.entries(Rails.root.join('tmp')), /attachments_zip/
+    assert_equal 'yes', response.headers['X-Accel-Buffering']
+    zip_data = +""
+    response.body.each {|chunk| zip_data << chunk}
+    Zip::File.open_buffer(zip_data) do |zip|
+      assert_equal ['source.rb'], zip.entries.map(&:name)
+      assert_equal File.binread(Attachment.find(4).diskfile), zip.read('source.rb')
+    end
   end
 
   def test_download_all_with_invalid_container
