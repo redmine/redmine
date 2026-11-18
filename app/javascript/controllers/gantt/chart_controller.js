@@ -1,6 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 const RELATION_STROKE_WIDTH = 2
+// Vertical offsets of the progress line vertices from the top of a row:
+// the center of the 10px tall task bar, and slightly above and below the
+// task bar for issues outside the displayed range.
+const PROGRESS_LINE_TASK_CENTER = 5
+const PROGRESS_LINE_TASK_ABOVE = -2
+const PROGRESS_LINE_TASK_BELOW = 14
 const SVG_NS = "http://www.w3.org/2000/svg"
 
 export default class extends Controller {
@@ -382,10 +388,9 @@ export default class extends Controller {
       if (!$element.is(":visible")) return true
 
       const topPosition = $element.position().top - this.#drawTop
-      const elementHeight = $element.height() / 9
-      const elementTopUpper = topPosition - elementHeight
-      const elementTopCenter = topPosition + elementHeight * 3
-      const elementTopLower = topPosition + elementHeight * 8
+      const elementTopUpper = topPosition + PROGRESS_LINE_TASK_ABOVE
+      const elementTopCenter = topPosition + PROGRESS_LINE_TASK_CENTER
+      const elementTopLower = topPosition + PROGRESS_LINE_TASK_BELOW
       const issueClosed = $element.children("span").hasClass("issue-closed")
       const versionClosed = $element.children("span").hasClass("version-closed")
 
