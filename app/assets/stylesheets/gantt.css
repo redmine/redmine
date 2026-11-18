@@ -253,17 +253,17 @@
   pointer-events: none;
 }
 
-[data-gantt-column="watcher_users"] div.issue_watcher_users ul {
+[data-gantt-column="watcher_users"] .gantt-row ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-[data-gantt-column="watcher_users"] div.issue_watcher_users ul li {
+[data-gantt-column="watcher_users"] .gantt-row ul li {
   display: inline;
 }
 
-[data-gantt-column="watcher_users"] div.issue_watcher_users ul li:not(:last-child)::after {
+[data-gantt-column="watcher_users"] .gantt-row ul li:not(:last-child)::after {
   content: ', ';
   white-space: pre;
 }
