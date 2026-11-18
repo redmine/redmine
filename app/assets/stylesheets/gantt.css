@@ -219,6 +219,12 @@
   white-space: nowrap;
 }
 
+.gantt-selected-column .gantt-row p {
+  margin: 0;
+  max-block-size: 1lh;
+  overflow: hidden;
+}
+
 /* Applied temporarily when auto-fitting a column to measure its header and row content widths. */
 .gantt-column-measuring .gantt-pane > header,
 .gantt-column-measuring .gantt-row {
