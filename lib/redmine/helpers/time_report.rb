@@ -77,7 +77,7 @@ module Redmine
           max = @hours.pluck('spent_on').max
           @to = max ? max.to_date : User.current.today
 
-          @total_hours = @hours.inject(0) {|s, k| s = s + k['hours'].to_f}
+          @total_hours = @hours.sum {|k| k['hours'].to_f}
 
           @periods = []
           # Date#at_beginning_of_ not supported in Rails 1.2.x

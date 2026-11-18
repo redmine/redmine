@@ -65,11 +65,7 @@ module TimelogHelper
   end
 
   def sum_hours(data)
-    sum = 0
-    data.each do |row|
-      sum += row['hours'].to_f
-    end
-    sum
+    data.sum {|row| row['hours'].to_f}
   end
 
   def format_criteria_value(criteria_options, value, html=true)

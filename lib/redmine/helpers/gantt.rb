@@ -122,7 +122,7 @@ module Redmine
       def number_of_rows
         return @number_of_rows if @number_of_rows
 
-        rows = projects.inject(0) {|total, p| total += number_of_rows_on_project(p)}
+        rows = projects.sum {|p| number_of_rows_on_project(p)}
         [rows, @max_rows].min
       end
 
