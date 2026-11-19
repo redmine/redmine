@@ -37,7 +37,7 @@ class AvatarsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'image/png', response.media_type
     assert_match /\Ainline/, response.headers['Content-Disposition']
-    assert_equal "max-age=#{1.day.to_i}, public", response.headers['Cache-Control']
+    assert_equal "max-age=#{1.day.to_i}, private", response.headers['Cache-Control']
   end
 
   def test_show_should_not_serve_original_image_if_thumbnail_cannot_be_generated

@@ -37,7 +37,7 @@ class AvatarsController < ApplicationController
       return
     end
 
-    expires_in 1.day, :public => !Setting.login_required?
+    expires_in 1.day
     if stale?(:etag => file, :template => false)
       send_file(
         file,
