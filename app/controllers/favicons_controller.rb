@@ -28,6 +28,8 @@ class FaviconsController < ApplicationController
       return
     end
 
+    # Omit the session cookie so that proxies can cache the response
+    request.session_options[:skip] = true
     # The URL changes whenever the favicon is replaced
     expires_in 1.year, :public => true, :immutable => true
     send_data Base64.decode64(favicon['data']), :type => favicon['content_type'], :disposition => 'inline'

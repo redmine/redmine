@@ -212,4 +212,15 @@ class SessionsTest < Redmine::IntegrationTest
     assert_not_nil session[:pwd]
     assert_redirected_to '/my/password'
   end
+
+  def test_favicon_should_not_send_session_cookie
+    favicon = {'content_type' => 'image/png', 'data' => 'AA==', 'digest' => '0' * 8}
+    with_settings :favicon => favicon do
+      log_user('jsmith', 'jsmith')
+      get "/favicons/#{favicon['digest']}"
+
+      assert_response :success
+      assert_nil response.headers['Set-Cookie']
+    end
+  end
 end
