@@ -34,7 +34,7 @@
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
   <%= content_tag 'div', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
     <%= f.wiki_textarea :description, :cols => 60, :accesskey => accesskey(:edit), :no_label => true,
-                        :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
+                        :rows => (@issue.description.to_s.length / 50).clamp(10, 20),
                         :data => {:auto_complete => true},
                         :preview_url => preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) %>
   <% end %>

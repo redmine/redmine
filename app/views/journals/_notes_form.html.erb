@@ -4,7 +4,7 @@
              :id => "journal-#{@journal.id}-form") do %>
     <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted", :for => "journal_#{@journal.id}_notes" %>
     <%= wiki_textarea_tag 'journal[notes]', @journal.notes, :id => "journal_#{@journal.id}_notes",
-          :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min),
+          :rows => (@journal.notes.to_s.length / 50).clamp(10, 100),
           :data => {:auto_complete => true},
           :preview_url => preview_issue_path(:project_id => @project, :issue_id => @journal.issue) %>
     <% if @journal.safe_attribute? 'private_notes' %>
