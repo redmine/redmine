@@ -92,7 +92,8 @@ module Redmine
         was = settings.keys.index_with { |v| @config[v] }
         @config.merge! settings
         yield if block_given?
-        @config.merge! was
+      ensure
+        @config.merge! was if was
       end
 
       private
