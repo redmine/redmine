@@ -93,6 +93,34 @@ class MermaidRenderingTest < ApplicationSystemTestCase
     end
   end
 
+  def test_should_render_mermaid_code_block_in_collapse_macro
+    skip unless mermaid_installed?
+
+    issue = Issue.find(1)
+    issue.update_column(:description, "{{collapse\n```mermaid\ngraph TD;\nA-->B;\n```\n}}")
+
+    log_user('jsmith', 'jsmith')
+    visit "/issues/#{issue.id}"
+
+    within('div.description') do
+      # Wait until Mermaid.js is loaded while the block is still collapsed.
+      assert page.evaluate_async_script(<<~JS)
+        const done = arguments[0];
+        const check = () => typeof mermaid !== 'undefined' ? setTimeout(() => done(true), 500) : setTimeout(check, 50);
+        check();
+      JS
+      find('a.collapsible', text: 'Show').click
+      within('div.collapsed-text') do
+        assert_selector 'div.mermaid svg g.node', count: 2
+        assert_no_selector 'svg .error-icon'
+        # The diagram must be laid out while visible, so that its labels have a size.
+        assert page.evaluate_script(
+          "document.querySelector('div.collapsed-text div.mermaid svg g.node .label').getBoundingClientRect().width > 0"
+        )
+      end
+    end
+  end
+
   def test_should_show_flash_message_for_invalid_mermaid_diagram
     skip unless mermaid_installed?
 

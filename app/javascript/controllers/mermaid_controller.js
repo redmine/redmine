@@ -71,7 +71,7 @@ export default class extends Controller {
 
     loadMermaid().then((mermaid) => {
       // The block may have left the DOM while Mermaid.js was loading.
-      if (this.element.isConnected) this.render(mermaid);
+      if (this.element.isConnected) this.renderWhenShown(mermaid);
     }).catch((error) => {
       console.error('Failed to load Mermaid.js:', error);
       // Show the source that the mermaid-available CSS rule hides.
@@ -80,6 +80,8 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this.visibilityObserver?.disconnect();
+    this.visibilityObserver = null;
     // Undo everything render() added so that a reconnect starts clean.
     this.container?.remove();
     this.errorElement?.remove();
@@ -90,6 +92,30 @@ export default class extends Controller {
       pre.style.display = '';
       pre.classList.remove('mermaid-failed');
     }
+  }
+
+  // Mermaid.js lays out a diagram by measuring its text, which has no size
+  // while the block is not displayed, e.g. inside a collapsed {{collapse}}
+  // macro. Such a block is rendered once it is shown.
+  renderWhenShown(mermaid) {
+    const pre = this.element.closest('pre');
+    if (!pre) return;
+
+    const isShown = () => pre.getClientRects().length > 0;
+    if (isShown()) {
+      this.render(mermaid);
+      return;
+    }
+
+    // The size of the block changes from zero when it is shown.
+    const observer = new ResizeObserver(() => {
+      if (!isShown()) return;
+      observer.disconnect();
+      if (this.visibilityObserver === observer) this.visibilityObserver = null;
+      this.render(mermaid);
+    });
+    observer.observe(pre);
+    this.visibilityObserver = observer;
   }
 
   render(mermaid) {
