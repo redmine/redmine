@@ -53,6 +53,16 @@ class Redmine::ConfigurationTest < ActiveSupport::TestCase
     assert_equal 'foo', @conf['somesetting']
   end
 
+  def test_with_should_restore_settings_if_the_block_raises
+    load_conf('default.yml', 'test')
+    assert_raise RuntimeError do
+      @conf.with 'somesetting' => 'bar' do
+        raise 'error'
+      end
+    end
+    assert_equal 'foo', @conf['somesetting']
+  end
+
   private
 
   def load_conf(file, env)
