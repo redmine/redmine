@@ -85,6 +85,7 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
       click_button 'Authorize'
 
       # wait for redirect to complete before checking the database
+      assert_current_path redirect_uri, ignore_query: true
       find 'p', visible: true, text: /Authorization succeeded/
       assert token.present?
 
