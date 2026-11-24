@@ -66,6 +66,11 @@ class Redmine::FieldFormatTest < ActionView::TestCase
     assert_save field
   end
 
+  def test_should_validate_url_pattern_with_mailto_scheme
+    field = IssueCustomField.new(:field_format => 'string', :name => 'Email', :url_pattern => 'mAiLtO:%value%')
+    assert_save field
+  end
+
   def test_should_not_validate_url_pattern_with_unsafe_scheme
     field = IssueCustomField.new(:field_format => 'string', :name => 'URL', :url_pattern => 'foo://foo/%value%')
     assert !field.save
