@@ -180,6 +180,21 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal true, issue.reload.is_private
   end
 
+  def test_add_issue_with_private_keyword_no_should_override_tracker_private_by_default_setting
+    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'fr'
+    MemberRole.create! member_id: 3, role_id: 1
+    Project.find(2).trackers.update_all(:private_by_default => true)
+
+    issue =
+      submit_email(
+        'ticket_with_localized_private_flag.eml',
+        :allow_override => 'is_private,tracker,category,priority'
+      ) {|email| email.sub!('oui', 'non')}
+    assert issue.is_a?(Issue)
+    assert_not issue.new_record?
+    assert_equal false, issue.reload.is_private
+  end
+
   def test_add_issue_with_group_assignment
     with_settings :issue_group_assignment => '1' do
       issue = submit_email('ticket_on_given_project.eml', :allow_override => ['assigned_to']) do |email|
