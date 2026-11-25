@@ -124,4 +124,11 @@ class EmailAddressTest < ActiveSupport::TestCase
     assert_equal 'marie@xn--socit-esab.example', email.address
     assert email.valid?
   end
+
+  def test_should_reject_idn_email_address_with_too_long_label
+    # Addressable::IDNA.to_ascii raises Addressable::IDNA::PunycodeBigOutput
+    # for this address
+    email = EmailAddress.new(address: "marie@#{'абвгдежзийклмнопрстуфхцчшщъыьэюя' * 7}.example")
+    assert_not email.valid?
+  end
 end
