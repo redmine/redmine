@@ -488,7 +488,7 @@ class MailHandler < ActionMailer::Base
       'done_ratio' => get_keyword(:done_ratio, :format => '(\d|10)?0'),
       'is_private' => get_keyword_bool(:is_private),
       'parent_issue_id' => get_keyword(:parent_issue)
-    }.delete_if {|k, v| v.blank?}
+    }.delete_if {|k, v| v.blank? && v != false}
 
     attrs
   end

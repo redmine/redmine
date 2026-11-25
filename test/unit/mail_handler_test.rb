@@ -992,6 +992,16 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !journal.notes.match(/^Start Date:/i)
   end
 
+  def test_update_issue_with_private_keyword_no
+    Role.find(1).add_permission! :set_issues_private
+    Issue.find(2).update_columns(:is_private => true)
+    journal = submit_email('ticket_reply_with_status.eml', :allow_override => 'is_private') do |email|
+      email.gsub!('Status: Resolved', 'Private: No')
+    end
+    assert journal.is_a?(Journal)
+    assert_equal false, Issue.find(2).is_private
+  end
+
   def test_update_issue_with_attachment
     assert_difference 'Journal.count' do
       assert_difference 'JournalDetail.count' do
