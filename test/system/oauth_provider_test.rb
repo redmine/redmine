@@ -30,6 +30,8 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
       check 'View Issues'
       click_button 'Create'
 
+      # wait for redirect to complete before checking the page content
+      assert_current_path %r{\A/oauth/applications/\d+\z}
       assert_text "Application created."
     end
 
