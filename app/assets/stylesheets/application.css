@@ -2000,6 +2000,11 @@ div.wiki li>ul, div.wiki li>ol {margin-block-end: 0;}
 
 div.wiki div.pre-wrapper {
   position: relative;
+  display: flow-root; /* Do not overlap a floating TOC */
+  margin-block: 1em;
+}
+div.wiki div.pre-wrapper > pre {
+  margin-block: 0;
 }
 
 /* Hide Mermaid code blocks until they are rendered so that their source does not flash.
