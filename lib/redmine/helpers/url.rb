@@ -22,8 +22,10 @@ require 'uri'
 module Redmine
   module Helpers
     module URL
+      SAFE_SCHEMES = ['http', 'https', 'ftp', 'mailto', nil].freeze
+
       # safe for resources fetched without user interaction?
-      def uri_with_safe_scheme?(uri, schemes = ['http', 'https', 'ftp', 'mailto', nil])
+      def uri_with_safe_scheme?(uri, schemes = SAFE_SCHEMES)
         # URLs relative to the current document or document root (without a protocol
         # separator, should be harmless
         return true unless uri.to_s.include? ":"
