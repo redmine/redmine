@@ -341,6 +341,16 @@ class Attachment < ApplicationRecord
     end
   end
 
+  RASTER_IMAGE_CONTENT_TYPES = %w(
+    image/avif image/bmp image/gif image/jpeg image/png image/webp
+  ).freeze
+
+  # Returns true for raster images that can be safely sent inline, unlike SVG
+  # images that may contain scripts
+  def raster_image?
+    RASTER_IMAGE_CONTENT_TYPES.include?(content_type)
+  end
+
   def is_video?
     Redmine::MimeType.is_type?('video', filename)
   end

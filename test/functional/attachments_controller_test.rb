@@ -266,6 +266,9 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'text/html', @response.media_type
     assert_select 'img.filecontent', :src => attachments(:attachments_010).filename
+
+    path = download_named_attachment_path(attachments(:attachments_016), attachments(:attachments_016).filename, :disposition => 'inline')
+    assert_select ".image-full-view-link a[href='#{path}']"
   end
 
   def test_show_svg_file_as_image
@@ -281,6 +284,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'text/html', @response.media_type
     assert_select 'img.filecontent', :src => attachment.filename
+    assert_select '.image-full-view-link', 0
   end
 
   def test_show_pdf
@@ -497,6 +501,29 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'application/pdf', @response.media_type
     assert_match %r{\Ainline}, @response.headers['Content-Disposition']
+  end
+
+  def test_download_raster_image_with_inline_disposition_param_should_be_sent_inline
+    @request.session[:user_id] = 2
+    get(:download, :params => {:id => 16, :disposition => 'inline'})
+    assert_response :success
+    assert_equal 'image/png', @response.media_type
+    assert_match %r{\Ainline}, @response.headers['Content-Disposition']
+  end
+
+  def test_download_svg_image_disguised_as_png_with_inline_disposition_param_should_be_sent_as_a_download
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(
+      :file => mock_file_with_options(:original_filename => 'image.png',
+                                      :content => File.read("#{Rails.root}/test/fixtures/files/testfile.svg")),
+      :author_id => 2,
+      :container => Issue.find(1)
+    )
+
+    get(:download, :params => {:id => attachment.id, :disposition => 'inline'})
+    assert_response :success
+    assert_equal 'image/svg+xml', @response.media_type
+    assert_match %r{\Aattachment}, @response.headers['Content-Disposition']
   end
 
   def test_download_non_pdf_file_with_inline_disposition_param_should_be_sent_as_a_download

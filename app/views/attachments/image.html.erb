@@ -1,3 +1,12 @@
+<% if @attachment.raster_image? %>
+  <% content_for :filecontent_header do %>
+    <p class="image-full-view-link">
+      <%= link_to sprite_icon('maximize', l(:label_open_in_full_view)),
+                  download_named_attachment_path(@attachment, @attachment.filename, :disposition => 'inline'),
+                  :class => 'icon icon-maximize' %>
+    </p>
+  <% end %>
+<% end %>
 <%= render :layout => 'layouts/file' do %>
   <%= render :partial => 'common/image', :locals => {:path => download_named_attachment_path(@attachment, @attachment.filename), :alt => @attachment.filename} %>
 <% end %>

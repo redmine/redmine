@@ -2768,7 +2768,7 @@ img {
   overflow-x: auto;
 }
 
-.pdf-full-view-link { margin: 0 0 0.5em; }
+.pdf-full-view-link, .image-full-view-link { margin: 0 0 0.5em; }
 
 /* tablesort */
 th[role=columnheader]:not(.no-sort) {

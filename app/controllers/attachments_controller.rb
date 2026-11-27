@@ -313,9 +313,10 @@ class AttachmentsController < ApplicationController
   end
 
   # Inline disposition can be requested only for PDF compatible files (used
-  # by the PDF preview), to prevent XSS with e.g. HTML or SVG files
+  # by the PDF preview) and raster images (used by the image full view), to
+  # prevent XSS with e.g. HTML or SVG files
   def disposition(attachment)
-    if params[:disposition] == 'inline' && attachment.pdf_previewable?
+    if params[:disposition] == 'inline' && (attachment.pdf_previewable? || attachment.raster_image?)
       'inline'
     else
       'attachment'
