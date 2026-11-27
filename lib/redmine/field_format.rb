@@ -219,7 +219,7 @@ module Redmine
       def validate_custom_field(custom_field)
         errors = []
         pattern = custom_field.url_pattern
-        if pattern.present? && !uri_with_safe_scheme?(url_pattern_without_tokens(pattern))
+        if pattern.present? && !url_pattern_with_safe_scheme?(pattern)
           errors << [:url_pattern, :invalid]
         end
         errors
@@ -308,6 +308,16 @@ module Redmine
         url_pattern.to_s.gsub(/%(value|id|project_id|project_identifier|m\d+)%/, '')
       end
       protected :url_pattern_without_tokens
+
+      # Checks only the scheme because the URL pattern is not a complete URI
+      # until the tokens are substituted (e.g. "mailto:%value%")
+      def url_pattern_with_safe_scheme?(url_pattern)
+        scheme = URI.split(url_pattern_without_tokens(url_pattern)).first
+        Redmine::Helpers::URL::SAFE_SCHEMES.include?(scheme&.downcase)
+      rescue URI::InvalidURIError
+        false
+      end
+      protected :url_pattern_with_safe_scheme?
 
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
         view.text_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id))
