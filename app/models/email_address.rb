@@ -38,12 +38,21 @@ class EmailAddress < ApplicationRecord
 
   normalizes :address, with: lambda { |address|
     normalized_address = address.to_s.strip
+    # An address that is longer than the limit as entered is invalid.
+    # Leave it to the length validation without converting it.
+    return normalized_address if normalized_address.length > User::MAIL_LENGTH_LIMIT
+
     local_part, _at, domain = normalized_address.partition('@')
     if domain.present?
       # Convert internationalized domain name (IDN) to Punycode
       # e.g. 'marie@société.example' => 'marie@xn--socit-esab.example'
-      ascii_domain = Addressable::IDNA.to_ascii(domain)
-      normalized_address = "#{local_part}@#{ascii_domain}"
+      begin
+        ascii_domain = Addressable::IDNA.to_ascii(domain)
+        normalized_address = "#{local_part}@#{ascii_domain}"
+      rescue Addressable::IDNA::PunycodeBigOutput
+        # The domain has a label that is too long to convert. Leave the
+        # address as it is, so that the validation rejects it.
+      end
     end
     normalized_address
   }
