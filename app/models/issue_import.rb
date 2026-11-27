@@ -172,9 +172,7 @@ class IssueImport < Import
       end
     end
     if is_private = row_value(row, 'is_private')
-      if yes?(is_private)
-        attributes['is_private'] = '1'
-      end
+      attributes['is_private'] = yes?(is_private) ? '1' : '0'
     end
     if parent_issue_id = row_value(row, 'parent_issue_id')
       if parent_issue_id.start_with? '#'

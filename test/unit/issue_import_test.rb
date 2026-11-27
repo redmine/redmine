@@ -338,6 +338,17 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal [false, true, false], issues.map(&:is_private)
   end
 
+  def test_is_private_column_should_override_tracker_private_by_default_setting
+    Tracker.update_all(:private_by_default => true)
+    Role.find(1).add_permission! :set_issues_private
+    import = generate_import_with_mapping
+    import.mapping['is_private'] = '6'
+    import.save!
+
+    issues = new_records(Issue, 3) {import.run}
+    assert_equal [false, true, false], issues.map(&:is_private)
+  end
+
   def test_dates_should_be_parsed_using_date_format_setting
     field = IssueCustomField.generate!(:field_format => 'date', :is_for_all => true, :trackers => Tracker.all)
     import = generate_import_with_mapping('import_dates.csv')
