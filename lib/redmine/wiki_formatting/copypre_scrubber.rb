@@ -19,7 +19,7 @@ module Redmine
       end
 
       def wrapper
-        @wrapper ||= Nokogiri::HTML5.fragment('<div class="pre-wrapper" data-controller="clipboard"></div>').children.first
+        Nokogiri::HTML5.fragment('<div class="pre-wrapper" data-controller="clipboard"></div>').children.first
       end
 
       def button
